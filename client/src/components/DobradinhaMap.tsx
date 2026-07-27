@@ -138,15 +138,25 @@ export const DobradinhaMap: React.FC<DobradinhaMapProps> = ({
     const map = mapRef.current?.getMap();
     if (!map) return;
 
-    const features = map.queryRenderedFeatures(event.point, {
-      layers: ['geovoto-heatmap', 'geovoto-points'],
-    });
+    const availableLayers: string[] = [];
+    if (map.getLayer('geovoto-points')) availableLayers.push('geovoto-points');
+    if (map.getLayer('geovoto-heatmap')) availableLayers.push('geovoto-heatmap');
 
-    if (features && features.length > 0 && features[0].properties?.territorioRaw) {
-      const t = JSON.parse(features[0].properties.territorioRaw) as TerritorioCalculado;
-      setSelectedTerritorio(t);
-    } else {
-      setSelectedTerritorio(null);
+    if (availableLayers.length === 0) return;
+
+    try {
+      const features = map.queryRenderedFeatures(event.point, {
+        layers: availableLayers,
+      });
+
+      if (features && features.length > 0 && features[0].properties?.territorioRaw) {
+        const t = JSON.parse(features[0].properties.territorioRaw) as TerritorioCalculado;
+        setSelectedTerritorio(t);
+      } else {
+        setSelectedTerritorio(null);
+      }
+    } catch (err) {
+      // Ignora consultas efêmeras enquanto as camadas ainda estão inicializando
     }
   }, []);
 
@@ -155,18 +165,31 @@ export const DobradinhaMap: React.FC<DobradinhaMapProps> = ({
     const map = mapRef.current?.getMap();
     if (!map) return;
 
-    const features = map.queryRenderedFeatures(event.point, {
-      layers: ['geovoto-heatmap', 'geovoto-points'],
-    });
+    const availableLayers: string[] = [];
+    if (map.getLayer('geovoto-points')) availableLayers.push('geovoto-points');
+    if (map.getLayer('geovoto-heatmap')) availableLayers.push('geovoto-heatmap');
 
-    if (features && features.length > 0 && features[0].properties?.territorioRaw) {
-      const t = JSON.parse(features[0].properties.territorioRaw) as TerritorioCalculado;
-      setHoverInfo({
-        x: event.point.x,
-        y: event.point.y,
-        territorio: t,
+    if (availableLayers.length === 0) {
+      setHoverInfo(null);
+      return;
+    }
+
+    try {
+      const features = map.queryRenderedFeatures(event.point, {
+        layers: availableLayers,
       });
-    } else {
+
+      if (features && features.length > 0 && features[0].properties?.territorioRaw) {
+        const t = JSON.parse(features[0].properties.territorioRaw) as TerritorioCalculado;
+        setHoverInfo({
+          x: event.point.x,
+          y: event.point.y,
+          territorio: t,
+        });
+      } else {
+        setHoverInfo(null);
+      }
+    } catch (err) {
       setHoverInfo(null);
     }
   }, []);
