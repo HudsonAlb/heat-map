@@ -12,6 +12,7 @@ import type {
 
 import { LoginScreen } from './LoginScreen';
 import { HeaderBar } from './HeaderBar';
+import { CandidateSelectorBar } from './CandidateSelectorBar';
 import { GeoVotoSidebar } from './GeoVotoSidebar';
 import { DataOrderingSelect } from './DataOrderingSelect';
 import type { ModoOrdenacaoDados } from './DataOrderingSelect';
@@ -92,6 +93,7 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
   // Modais e Drawers
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const [isDobradinhasModalOpen, setIsDobradinhasModalOpen] = useState(false);
+  const [isMobileFilterDrawerOpen, setIsMobileFilterDrawerOpen] = useState(false);
   const [dobradinhasSalvas, setDobradinhasSalvas] = useState<DobradinhaSalva[]>([]);
 
   // 1. Fetch Inicial de Candidatos e Dobradinhas
@@ -277,35 +279,117 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
         </div>
       )}
 
+      {/* BARRA FLUTUANTE DE BOTÃO DE FILTROS MOBILE */}
+      {candX && (
+        <div className="mobile-filter-bar-toggle">
+          <button
+            className="btn btn-primary btn-md mobile-filter-btn"
+            onClick={() => setIsMobileFilterDrawerOpen(true)}
+          >
+            ⚙️ Filtros & Candidatos — {candX.nome_urna} {candY ? `vs ${candY.nome_urna}` : ''} ({anoEleicao})
+          </button>
+        </div>
+      )}
+
+      {/* MODAL / DRAWER DE FILTROS EXCLUSIVO PARA MOBILE */}
+      {isMobileFilterDrawerOpen && candX && (
+        <div className="mobile-filter-drawer-overlay">
+          <div className="mobile-filter-drawer-card">
+            <div className="mobile-filter-drawer-header">
+              <h3>⚙️ Filtros & Configuração de Parceria</h3>
+              <button
+                className="drawer-close-btn"
+                onClick={() => setIsMobileFilterDrawerOpen(false)}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="mobile-filter-drawer-body">
+              <CandidateSelectorBar
+                candidatosLista={candidatosLista}
+                candX={candX}
+                candY={candY || candX}
+                onChangeCandX={setCandX}
+                onChangeCandY={setCandY}
+                camadaAtiva={camadaAtiva}
+                onChangeCamada={setCamadaAtiva}
+                modoAtivo={modoAtivo}
+                onChangeModo={setModoAtivo}
+                alertasCiclo={[]}
+              />
+
+              <GeoVotoSidebar
+                filterSearch={filterSearch}
+                onSearchChange={setFilterSearch}
+                camadaAtiva={camadaAtiva}
+                onCamadaChange={setCamadaAtiva}
+                mesorregiaoAtiva={mesorregiaoAtiva}
+                onMesorregiaoChange={setMesorregiaoAtiva}
+                municipioAtivo={municipioAtivo}
+                onMunicipioChange={setMunicipioAtivo}
+                bairroAtivo={bairroAtivo}
+                onBairroChange={setBairroAtivo}
+                municipiosDisponiveis={municipiosDisponiveis}
+                candidatosLista={candidatosLista}
+                candX={candX}
+                candY={candY}
+                onCandXChange={setCandX}
+                onCandYChange={setCandY}
+                modoAtivo={modoAtivo}
+                onModoChange={setModoAtivo}
+                anoEleicao={anoEleicao}
+                onAnoEleicaoChange={setAnoEleicao}
+                totalEleitoresFiltrados={resultado?.resumoGeral.totalEleitores || 0}
+                totalSecoes={resultado?.resumoGeral.totalSecoes || 0}
+                totalVotosParceria={resultado?.resumoGeral.totalVotosDobradinha || 0}
+              />
+            </div>
+
+            <div className="mobile-filter-drawer-footer">
+              <button
+                className="btn btn-primary btn-lg"
+                style={{ width: '100%' }}
+                onClick={() => setIsMobileFilterDrawerOpen(false)}
+              >
+                🚀 Aplicar Filtros no Mapa
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ── CORPO DA DASHBOARD COM SIDEBAR E CONTEÚDO PRINCIPAL ───────────── */}
       <div className="geovoto-dashboard-body">
-        {/* FILTRO LATERAL ESTRUTURADO (SIDEBAR) */}
+        {/* FILTRO LATERAL ESTRUTURADO (SIDEBAR DESKTOP) */}
         {candX && (
-          <GeoVotoSidebar
-            filterSearch={filterSearch}
-            onSearchChange={setFilterSearch}
-            camadaAtiva={camadaAtiva}
-            onCamadaChange={setCamadaAtiva}
-            mesorregiaoAtiva={mesorregiaoAtiva}
-            onMesorregiaoChange={setMesorregiaoAtiva}
-            municipioAtivo={municipioAtivo}
-            onMunicipioChange={setMunicipioAtivo}
-            bairroAtivo={bairroAtivo}
-            onBairroChange={setBairroAtivo}
-            municipiosDisponiveis={municipiosDisponiveis}
-            candidatosLista={candidatosLista}
-            candX={candX}
-            candY={candY}
-            onCandXChange={setCandX}
-            onCandYChange={setCandY}
-            modoAtivo={modoAtivo}
-            onModoChange={setModoAtivo}
-            anoEleicao={anoEleicao}
-            onAnoEleicaoChange={setAnoEleicao}
-            totalEleitoresFiltrados={resultado?.resumoGeral.totalEleitores || 0}
-            totalSecoes={resultado?.resumoGeral.totalSecoes || 0}
-            totalVotosParceria={resultado?.resumoGeral.totalVotosDobradinha || 0}
-          />
+          <div className="desktop-sidebar-wrapper">
+            <GeoVotoSidebar
+              filterSearch={filterSearch}
+              onSearchChange={setFilterSearch}
+              camadaAtiva={camadaAtiva}
+              onCamadaChange={setCamadaAtiva}
+              mesorregiaoAtiva={mesorregiaoAtiva}
+              onMesorregiaoChange={setMesorregiaoAtiva}
+              municipioAtivo={municipioAtivo}
+              onMunicipioChange={setMunicipioAtivo}
+              bairroAtivo={bairroAtivo}
+              onBairroChange={setBairroAtivo}
+              municipiosDisponiveis={municipiosDisponiveis}
+              candidatosLista={candidatosLista}
+              candX={candX}
+              candY={candY}
+              onCandXChange={setCandX}
+              onCandYChange={setCandY}
+              modoAtivo={modoAtivo}
+              onModoChange={setModoAtivo}
+              anoEleicao={anoEleicao}
+              onAnoEleicaoChange={setAnoEleicao}
+              totalEleitoresFiltrados={resultado?.resumoGeral.totalEleitores || 0}
+              totalSecoes={resultado?.resumoGeral.totalSecoes || 0}
+              totalVotosParceria={resultado?.resumoGeral.totalVotosDobradinha || 0}
+            />
+          </div>
         )}
 
         {/* ÁREA DE EXIBIÇÃO DA DASHBOARD */}
@@ -317,7 +401,7 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
                 className={`nav-tab-btn ${activeTab === 'map' ? 'active' : ''}`}
                 onClick={() => setActiveTab('map')}
               >
-                🗺️ Mapa de Calor & Territórios
+                🗺️ Mapa de Calor
               </button>
               <button
                 className={`nav-tab-btn ${activeTab === 'table' ? 'active' : ''}`}
@@ -329,7 +413,7 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
                 className={`nav-tab-btn ${activeTab === 'metrics' ? 'active' : ''}`}
                 onClick={() => setActiveTab('metrics')}
               >
-                📈 IA Direcionamentos Estratégicos & Métricas
+                📈 Métricas IA
               </button>
             </div>
 

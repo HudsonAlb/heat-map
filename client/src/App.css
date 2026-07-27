@@ -1864,8 +1864,125 @@ body {
   padding: 0 12px;
 }
 
+/* ─── Mobile Filter Toggle & Drawer Styles ─────────────────────────────────── */
+.mobile-filter-bar-toggle {
+  display: none;
+  padding: 10px 14px;
+  background: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.mobile-filter-btn {
+  width: 100%;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: var(--shadow-glow-brand);
+}
+
+.desktop-sidebar-wrapper {
+  display: block;
+}
+
+.mobile-filter-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.mobile-filter-drawer-card {
+  background: var(--color-bg-secondary);
+  border-top: 1px solid var(--color-accent-light);
+  border-radius: 20px 20px 0 0;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.mobile-filter-drawer-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mobile-filter-drawer-header h3 {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.drawer-close-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-filter-drawer-body {
+  padding: 16px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mobile-filter-drawer-footer {
+  padding: 14px 20px;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-tertiary);
+}
+
 /* ─── RESPONSIVIDADE MOBILE (SMARTPHONES E TABLETS <= 768px) ──────────────── */
 @media (max-width: 768px) {
+  .mobile-filter-bar-toggle {
+    display: block;
+  }
+
+  .desktop-sidebar-wrapper {
+    display: none;
+  }
+
+  .geovoto-dashboard-body {
+    flex-direction: column;
+    height: calc(100vh - 130px);
+    overflow: hidden;
+  }
+
+  .geovoto-main-view {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .tab-body-container {
+    flex: 1;
+    height: 100% !important;
+    min-height: 0 !important;
+  }
+
+  .map-view-container {
+    height: 100% !important;
+    min-height: 0 !important;
+  }
   /* 1. Header Bar & Navbar */
   .header-bar-container {
     height: auto;
