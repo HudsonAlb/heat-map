@@ -1393,6 +1393,66 @@ body {
   color: var(--color-text-muted);
 }
 
+/* ─── Flag Flutuante de Hover no Mapa (Tooltip de Votos) ─────────────────────── */
+.map-hover-flag-tooltip {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1000;
+  background: rgba(15, 23, 42, 0.94);
+  border: 1px solid var(--color-accent-light);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 14px rgba(9, 65, 220, 0.35);
+  color: var(--color-text-primary);
+  font-size: 12px;
+  min-width: 180px;
+  transform: translate(0, -50%);
+  animation: fadeIn 0.15s ease-out;
+}
+
+.hover-flag-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  padding-bottom: 5px;
+}
+
+.hover-flag-header strong {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.hover-flag-badge {
+  background: var(--gradient-brand-btn);
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: auto;
+}
+
+.hover-flag-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+}
+
+.hover-flag-row.total-row {
+  border-top: 1px dashed rgba(255, 255, 255, 0.2);
+  margin-top: 6px;
+  padding-top: 5px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
 /* ─── B DASH REVOPS STACK & SECTIONS ───────────────────────────────────────── */
 .revops-main-content {
   flex: 1;

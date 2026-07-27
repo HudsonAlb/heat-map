@@ -43,6 +43,12 @@ export const DobradinhaMap: React.FC<DobradinhaMapProps> = ({
   });
 
   const [selectedTerritorio, setSelectedTerritorio] = useState<TerritorioCalculado | null>(null);
+  const [hoverInfo, setHoverInfo] = useState<{
+    x: number;
+    y: number;
+    territorio: TerritorioCalculado;
+  } | null>(null);
+
   const mapRef = useRef<MapRef>(null);
 
   // Converte o array de territórios em FeatureCollection GeoJSON com pesos calibrados
@@ -120,11 +126,11 @@ export const DobradinhaMap: React.FC<DobradinhaMapProps> = ({
     paint: {
       'circle-radius': modo === 'diferencial'
         ? ['interpolate', ['linear'], ['zoom'], 5, 8, 14, 16]
-        : 5,
+        : 6,
       'circle-color': modo === 'diferencial' ? ['get', 'colorDiff'] : '#ffffff',
-      'circle-stroke-width': modo === 'diferencial' ? 2 : 0,
-      'circle-stroke-color': '#ffffff',
-      'circle-opacity': modo === 'diferencial' ? 0.9 : 0.25,
+      'circle-stroke-width': modo === 'diferencial' ? 2 : 1,
+      'circle-stroke-color': '#0941dc',
+      'circle-opacity': modo === 'diferencial' ? 0.9 : 0.4,
     },
   };
 
@@ -144,6 +150,31 @@ export const DobradinhaMap: React.FC<DobradinhaMapProps> = ({
     }
   }, []);
 
+  // Flag de Hover (Tooltip ao passar o mouse sobre qualquer localidade)
+  const handleMouseMove = useCallback((event: MapLayerMouseEvent) => {
+    const map = mapRef.current?.getMap();
+    if (!map) return;
+
+    const features = map.queryRenderedFeatures(event.point, {
+      layers: ['geovoto-heatmap', 'geovoto-points'],
+    });
+
+    if (features && features.length > 0 && features[0].properties?.territorioRaw) {
+      const t = JSON.parse(features[0].properties.territorioRaw) as TerritorioCalculado;
+      setHoverInfo({
+        x: event.point.x,
+        y: event.point.y,
+        territorio: t,
+      });
+    } else {
+      setHoverInfo(null);
+    }
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setHoverInfo(null);
+  }, []);
+
   // Rótulos e Titulo da Legenda Oficial (Estritamente Azul -> Vermelho)
   const legendTitle = useMemo(() => {
     switch (modo) {
@@ -161,12 +192,13 @@ export const DobradinhaMap: React.FC<DobradinhaMapProps> = ({
   }, [modo, candX, candY]);
 
   return (
-    <div className="map-view-container">
+    <div className="map-view-container" onMouseLeave={handleMouseLeave}>
       <Map
         ref={mapRef}
         {...viewState}
         onMove={(evt) => setViewState(evt.viewState)}
         onClick={handleMapClick}
+        onMouseMove={handleMouseMove}
         mapStyle={MAP_STYLE_URL}
         minZoom={PE_MIN_ZOOM}
         maxZoom={PE_MAX_ZOOM}
@@ -243,6 +275,42 @@ export const DobradinhaMap: React.FC<DobradinhaMapProps> = ({
           </Popup>
         )}
       </Map>
+
+      {/* 🚩 FLAG FLUTUANTE DE VOTOS AO PASSAR O MOUSE (HOVER TOOLTIP) */}
+      {hoverInfo && (
+        <div
+          className="map-hover-flag-tooltip"
+          style={{ left: hoverInfo.x + 15, top: hoverInfo.y - 20 }}
+        >
+          <div className="hover-flag-header">
+            <span className="hover-flag-icon">📍</span>
+            <strong>{hoverInfo.territorio.nome}</strong>
+            <span className="hover-flag-badge">{camada.toUpperCase()}</span>
+          </div>
+          <div className="hover-flag-body">
+            <div className="hover-flag-row">
+              <span>{candX.nome_urna}:</span>
+              <strong className="text-cand-x">
+                {hoverInfo.territorio.votos_A.toLocaleString('pt-BR')} votos
+              </strong>
+            </div>
+            {candY && (
+              <div className="hover-flag-row">
+                <span>{candY.nome_urna}:</span>
+                <strong className="text-cand-y">
+                  {hoverInfo.territorio.votos_B.toLocaleString('pt-BR')} votos
+                </strong>
+              </div>
+            )}
+            <div className="hover-flag-row total-row">
+              <span>Total Votos:</span>
+              <strong className="text-soma">
+                {(hoverInfo.territorio.votos_A + hoverInfo.territorio.votos_B).toLocaleString('pt-BR')} votos
+              </strong>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* LEGENDA DINÂMICA: ESTRITAMENTE DE AZUL ATÉ VERMELHO */}
       <div className="map-dynamic-legend-overlay">
