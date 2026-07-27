@@ -1,6 +1,6 @@
 {
   "name": "geovoto-bdash-platform",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Plataforma Berlim Co. — B DASH RevOps & GeoVoto Inteligência Eleitoral Geográfica",
   "main": "server/dist/index.js",
   "scripts": {

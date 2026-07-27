@@ -51,7 +51,7 @@ app.get('/api/health', (_req, res) => {
     status: 'ok',
     plataforma: 'Plataforma Berlim Co. (GeoVoto + B DASH RevOps)',
     slogan: 'Dados que revelam intenções. Decisões que transformam.',
-    versao: '2.0.0',
+    versao: '2.1.0',
     banco_dados: 'Embedded RealDataStore (Sem necessidade de PostGIS externo para apresentações)',
     timestamp: new Date().toISOString(),
   });
