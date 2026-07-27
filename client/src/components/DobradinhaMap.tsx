@@ -240,21 +240,23 @@ export const DobradinhaMap: React.FC<DobradinhaMapProps> = ({
                   </strong>
                 </div>
 
-                {candY && (
-                  <div className="popup-stat-box">
-                    <span className="stat-label">Votos {candY.nome_urna}:</span>
-                    <strong className="stat-val text-cand-y">
-                      {selectedTerritorio.votos_B.toLocaleString('pt-BR')} ({ (selectedTerritorio.aderencia_B * 100).toFixed(1) }%)
-                    </strong>
-                  </div>
-                )}
+                {candY && candY.id !== candX.id && selectedTerritorio.votos_B > 0 && (
+                  <>
+                    <div className="popup-stat-box">
+                      <span className="stat-label">Votos {candY.nome_urna}:</span>
+                      <strong className="stat-val text-cand-y">
+                        {selectedTerritorio.votos_B.toLocaleString('pt-BR')} ({ (selectedTerritorio.aderencia_B * 100).toFixed(1) }%)
+                      </strong>
+                    </div>
 
-                <div className="popup-stat-box">
-                  <span className="stat-label">Força da Parceria:</span>
-                  <strong className="stat-val text-soma">
-                    {(selectedTerritorio.forca_dobradinha * 100).toFixed(1)}%
-                  </strong>
-                </div>
+                    <div className="popup-stat-box">
+                      <span className="stat-label">Força da Parceria:</span>
+                      <strong className="stat-val text-soma">
+                        {(selectedTerritorio.forca_dobradinha * 100).toFixed(1)}%
+                      </strong>
+                    </div>
+                  </>
+                )}
               </div>
 
               <div className="popup-card-footer">
@@ -294,20 +296,22 @@ export const DobradinhaMap: React.FC<DobradinhaMapProps> = ({
                 {hoverInfo.territorio.votos_A.toLocaleString('pt-BR')} votos
               </strong>
             </div>
-            {candY && (
-              <div className="hover-flag-row">
-                <span>{candY.nome_urna}:</span>
-                <strong className="text-cand-y">
-                  {hoverInfo.territorio.votos_B.toLocaleString('pt-BR')} votos
-                </strong>
-              </div>
+            {candY && candY.id !== candX.id && hoverInfo.territorio.votos_B > 0 && (
+              <>
+                <div className="hover-flag-row">
+                  <span>{candY.nome_urna}:</span>
+                  <strong className="text-cand-y">
+                    {hoverInfo.territorio.votos_B.toLocaleString('pt-BR')} votos
+                  </strong>
+                </div>
+                <div className="hover-flag-row total-row">
+                  <span>Total Parceria:</span>
+                  <strong className="text-soma">
+                    {(hoverInfo.territorio.votos_A + hoverInfo.territorio.votos_B).toLocaleString('pt-BR')} votos
+                  </strong>
+                </div>
+              </>
             )}
-            <div className="hover-flag-row total-row">
-              <span>Total Votos:</span>
-              <strong className="text-soma">
-                {(hoverInfo.territorio.votos_A + hoverInfo.territorio.votos_B).toLocaleString('pt-BR')} votos
-              </strong>
-            </div>
           </div>
         </div>
       )}

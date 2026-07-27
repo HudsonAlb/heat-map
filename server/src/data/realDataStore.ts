@@ -342,8 +342,8 @@ export function buscarUnidadesBrutasMulti(
   const eleicaoObj = ELEICOES_OFICIAIS.find((e) => e.ano === anoEleicao) || ELEICOES_OFICIAIS[0];
   const unidadesMap = new Map<string, UnidadeBruta>();
 
-  const candAId = candidatoIds[0] || (anoEleicao === 2024 ? 201 : 101);
-  const candBId = candidatoIds[1] || (anoEleicao === 2024 ? 202 : 102);
+  const candAId = candidatoIds[0];
+  const candBId = candidatoIds.length > 1 ? candidatoIds[1] : undefined;
 
   LOCAIS_VOTACAO_OFICIAIS.forEach((loc) => {
     const secoesDoLocal = SECOES_OFICIAIS.filter((s) => s.local_votacao_id === loc.id);
@@ -392,10 +392,10 @@ export function buscarUnidadesBrutasMulti(
       }
 
       // Votos do Candidato A
-      const votosA = obterVotosCandidatoSecao(candAId, sec.id, eleicaoObj.id);
+      const votosA = candAId ? obterVotosCandidatoSecao(candAId, sec.id, eleicaoObj.id) : 0;
 
       // Votos do Candidato B
-      const votosB = obterVotosCandidatoSecao(candBId, sec.id, eleicaoObj.id);
+      const votosB = candBId ? obterVotosCandidatoSecao(candBId, sec.id, eleicaoObj.id) : 0;
 
       u.votos_A = (u.votos_A ?? 0) + votosA;
       u.votos_B = (u.votos_B ?? 0) + votosB;
