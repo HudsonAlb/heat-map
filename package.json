@@ -1,0 +1,14 @@
+{
+  "name": "geovoto-bdash-platform",
+  "version": "2.0.0",
+  "description": "Plataforma Berlim Co. — B DASH RevOps & GeoVoto Inteligência Eleitoral Geográfica",
+  "main": "server/dist/index.js",
+  "scripts": {
+    "build": "cd client && npm run build && cd ../server && npm run build",
+    "start": "cd server && npm start",
+    "dev": "cd server && npm run dev"
+  },
+  "keywords": ["geovoto", "revops", "berlim-co", "heatmap", "tse"],
+  "author": "Berlim Co.",
+  "license": "ISC"
+}

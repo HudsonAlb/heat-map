@@ -1,0 +1,779 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -34.8711,
+          -8.0476
+        ]
+      },
+      "properties": {
+        "totalEleitores": 45200,
+        "municipio": "Recife",
+        "bairro": "Boa Viagem",
+        "zonaEleitoral": 1,
+        "secaoEleitoral": 101,
+        "microrregiao": "Região Metropolitana do Recife"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -34.8784,
+          -8.0631
+        ]
+      },
+      "properties": {
+        "totalEleitores": 38700,
+        "municipio": "Recife",
+        "bairro": "Imbiribeira",
+        "zonaEleitoral": 1,
+        "secaoEleitoral": 102,
+        "microrregiao": "Região Metropolitana do Recife"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -34.8812,
+          -8.0539
+        ]
+      },
+      "properties": {
+        "totalEleitores": 32100,
+        "municipio": "Recife",
+        "bairro": "Pina",
+        "zonaEleitoral": 1,
+        "secaoEleitoral": 103,
+        "microrregiao": "Região Metropolitana do Recife"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -34.871,
+          -8.0343
+        ]
+      },
+      "properties": {
+        "totalEleitores": 28500,
+        "municipio": "Recife",
+        "bairro": "Recife Antigo",
+        "zonaEleitoral": 2,
+        "secaoEleitoral": 201,
+        "microrregiao": "Região Metropolitana do Recife"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -34.89,
+          -8.05
+        ]
+      },
+      "properties": {
+        "totalEleitores": 22300,
+        "municipio": "Recife",
+        "bairro": "Santo Amaro",
+        "zonaEleitoral": 2,
+        "secaoEleitoral": 202,
+        "microrregiao": "Região Metropolitana do Recife"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -34.91,
+          -8.02
+        ]
+      },
+      "properties": {
+        "totalEleitores": 19800,
+        "municipio": "Recife",
+        "bairro": "Casa Amarela",
+        "zonaEleitoral": 3,
+        "secaoEleitoral": 301,
+        "microrregiao": "Região Metropolitana do Recife"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -34.935,
+          -8.015
+        ]
+      },
+      "properties": {
+        "totalEleitores": 17600,
+        "municipio": "Recife",
+        "bairro": "Várzea",
+        "zonaEleitoral": 3,
+        "secaoEleitoral": 302,
+        "microrregiao": "Região Metropolitana do Recife"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -34.895,
+          -8.07
+        ]
+      },
+      "properties": {
+        "totalEleitores": 25400,
+        "municipio": "Recife",
+        "bairro": "Ibura",
+        "zonaEleitoral": 4,
+        "secaoEleitoral": 401,
+        "microrregiao": "Região Metropolitana do Recife"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -34.92,
+          -8.09
+        ]
+      },
+      "properties": {
+        "totalEleitores": 15200,
+        "municipio": "Recife",
+        "bairro": "Tejipió",
+        "zonaEleitoral": 4,
+        "secaoEleitoral": 402,
+        "microrregiao": "Região Metropolitana do Recife"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -34.865,
+          -8.01
+        ]
+      },
+      "properties": {
+        "totalEleitores": 21000,
+        "municipio": "Recife",
+        "bairro": "Derby",
+        "zonaEleitoral": 5,
+        "secaoEleitoral": 501,
+        "microrregiao": "Região Metropolitana do Recife"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -34.8553,
+          -7.9968
+        ]
+      },
+      "properties": {
+        "totalEleitores": 18900,
+        "municipio": "Olinda",
+        "bairro": "Carmo",
+        "zonaEleitoral": 10,
+        "secaoEleitoral": 1001,
+        "microrregiao": "Região Metropolitana do Recife"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -34.869,
+          -7.985
+        ]
+      },
+      "properties": {
+        "totalEleitores": 14200,
+        "municipio": "Olinda",
+        "bairro": "Casa Caiada",
+        "zonaEleitoral": 10,
+        "secaoEleitoral": 1002,
+        "microrregiao": "Região Metropolitana do Recife"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -34.848,
+          -8.005
+        ]
+      },
+      "properties": {
+        "totalEleitores": 11500,
+        "municipio": "Olinda",
+        "bairro": "Bairro Novo",
+        "zonaEleitoral": 11,
+        "secaoEleitoral": 1101,
+        "microrregiao": "Região Metropolitana do Recife"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -35.015,
+          -8.113
+        ]
+      },
+      "properties": {
+        "totalEleitores": 16800,
+        "municipio": "Jaboatão dos Guararapes",
+        "bairro": "Piedade",
+        "zonaEleitoral": 15,
+        "secaoEleitoral": 1501,
+        "microrregiao": "Região Metropolitana do Recife"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -35.05,
+          -8.18
+        ]
+      },
+      "properties": {
+        "totalEleitores": 12400,
+        "municipio": "Jaboatão dos Guararapes",
+        "bairro": "Cavaleiro",
+        "zonaEleitoral": 15,
+        "secaoEleitoral": 1502,
+        "microrregiao": "Região Metropolitana do Recife"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -34.99,
+          -8.15
+        ]
+      },
+      "properties": {
+        "totalEleitores": 9800,
+        "municipio": "Jaboatão dos Guararapes",
+        "bairro": "Candeias",
+        "zonaEleitoral": 16,
+        "secaoEleitoral": 1601,
+        "microrregiao": "Região Metropolitana do Recife"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -34.873,
+          -7.938
+        ]
+      },
+      "properties": {
+        "totalEleitores": 13500,
+        "municipio": "Paulista",
+        "bairro": "Maranguape",
+        "zonaEleitoral": 20,
+        "secaoEleitoral": 2001,
+        "microrregiao": "Região Metropolitana do Recife"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -34.886,
+          -7.915
+        ]
+      },
+      "properties": {
+        "totalEleitores": 8900,
+        "municipio": "Paulista",
+        "bairro": "Pau Amarelo",
+        "zonaEleitoral": 20,
+        "secaoEleitoral": 2002,
+        "microrregiao": "Região Metropolitana do Recife"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -35.298,
+          -8.12
+        ]
+      },
+      "properties": {
+        "totalEleitores": 8200,
+        "municipio": "Vitória de Santo Antão",
+        "bairro": "Centro",
+        "zonaEleitoral": 25,
+        "secaoEleitoral": 2501,
+        "microrregiao": "Zona da Mata"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -35.31,
+          -8.135
+        ]
+      },
+      "properties": {
+        "totalEleitores": 4100,
+        "municipio": "Vitória de Santo Antão",
+        "bairro": "Água Branca",
+        "zonaEleitoral": 25,
+        "secaoEleitoral": 2502,
+        "microrregiao": "Zona da Mata"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -35.589,
+          -8.683
+        ]
+      },
+      "properties": {
+        "totalEleitores": 5400,
+        "municipio": "Palmares",
+        "bairro": "Centro",
+        "zonaEleitoral": 28,
+        "secaoEleitoral": 2801,
+        "microrregiao": "Zona da Mata"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -35.575,
+          -8.67
+        ]
+      },
+      "properties": {
+        "totalEleitores": 2800,
+        "municipio": "Palmares",
+        "bairro": "São Sebastião",
+        "zonaEleitoral": 28,
+        "secaoEleitoral": 2802,
+        "microrregiao": "Zona da Mata"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -35.228,
+          -8.28
+        ]
+      },
+      "properties": {
+        "totalEleitores": 6700,
+        "municipio": "Cabo de Santo Agostinho",
+        "bairro": "Centro",
+        "zonaEleitoral": 30,
+        "secaoEleitoral": 3001,
+        "microrregiao": "Zona da Mata"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -35.105,
+          -8.32
+        ]
+      },
+      "properties": {
+        "totalEleitores": 4900,
+        "municipio": "Escada",
+        "bairro": "Centro",
+        "zonaEleitoral": 32,
+        "secaoEleitoral": 3201,
+        "microrregiao": "Zona da Mata"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -35.715,
+          -8.89
+        ]
+      },
+      "properties": {
+        "totalEleitores": 3200,
+        "municipio": "Barreiros",
+        "bairro": "Centro",
+        "zonaEleitoral": 34,
+        "secaoEleitoral": 3401,
+        "microrregiao": "Zona da Mata"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -35.9761,
+          -8.2784
+        ]
+      },
+      "properties": {
+        "totalEleitores": 22800,
+        "municipio": "Caruaru",
+        "bairro": "Centro",
+        "zonaEleitoral": 40,
+        "secaoEleitoral": 4001,
+        "microrregiao": "Agreste"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -35.96,
+          -8.265
+        ]
+      },
+      "properties": {
+        "totalEleitores": 14500,
+        "municipio": "Caruaru",
+        "bairro": "Boa Vista",
+        "zonaEleitoral": 40,
+        "secaoEleitoral": 4002,
+        "microrregiao": "Agreste"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -35.99,
+          -8.29
+        ]
+      },
+      "properties": {
+        "totalEleitores": 9200,
+        "municipio": "Caruaru",
+        "bairro": "Universitário",
+        "zonaEleitoral": 41,
+        "secaoEleitoral": 4101,
+        "microrregiao": "Agreste"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -36.4936,
+          -8.8912
+        ]
+      },
+      "properties": {
+        "totalEleitores": 11200,
+        "municipio": "Garanhuns",
+        "bairro": "Centro",
+        "zonaEleitoral": 45,
+        "secaoEleitoral": 4501,
+        "microrregiao": "Agreste"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -36.51,
+          -8.905
+        ]
+      },
+      "properties": {
+        "totalEleitores": 5800,
+        "municipio": "Garanhuns",
+        "bairro": "Heliópolis",
+        "zonaEleitoral": 45,
+        "secaoEleitoral": 4502,
+        "microrregiao": "Agreste"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -36.42,
+          -8.335
+        ]
+      },
+      "properties": {
+        "totalEleitores": 6100,
+        "municipio": "Belo Jardim",
+        "bairro": "Centro",
+        "zonaEleitoral": 48,
+        "secaoEleitoral": 4801,
+        "microrregiao": "Agreste"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -35.565,
+          -8.2
+        ]
+      },
+      "properties": {
+        "totalEleitores": 5400,
+        "municipio": "Gravatá",
+        "bairro": "Centro",
+        "zonaEleitoral": 50,
+        "secaoEleitoral": 5001,
+        "microrregiao": "Agreste"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -36.205,
+          -7.955
+        ]
+      },
+      "properties": {
+        "totalEleitores": 7800,
+        "municipio": "Santa Cruz do Capibaribe",
+        "bairro": "Centro",
+        "zonaEleitoral": 52,
+        "secaoEleitoral": 5201,
+        "microrregiao": "Agreste"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -40.5008,
+          -9.3891
+        ]
+      },
+      "properties": {
+        "totalEleitores": 19500,
+        "municipio": "Petrolina",
+        "bairro": "Centro",
+        "zonaEleitoral": 60,
+        "secaoEleitoral": 6001,
+        "microrregiao": "Sertão"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -40.485,
+          -9.375
+        ]
+      },
+      "properties": {
+        "totalEleitores": 11200,
+        "municipio": "Petrolina",
+        "bairro": "Rio Corrente",
+        "zonaEleitoral": 60,
+        "secaoEleitoral": 6002,
+        "microrregiao": "Sertão"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -40.52,
+          -9.405
+        ]
+      },
+      "properties": {
+        "totalEleitores": 7400,
+        "municipio": "Petrolina",
+        "bairro": "Areia Branca",
+        "zonaEleitoral": 61,
+        "secaoEleitoral": 6101,
+        "microrregiao": "Sertão"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -38.295,
+          -7.9856
+        ]
+      },
+      "properties": {
+        "totalEleitores": 9800,
+        "municipio": "Serra Talhada",
+        "bairro": "Centro",
+        "zonaEleitoral": 65,
+        "secaoEleitoral": 6501,
+        "microrregiao": "Sertão"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -38.31,
+          -7.97
+        ]
+      },
+      "properties": {
+        "totalEleitores": 4500,
+        "municipio": "Serra Talhada",
+        "bairro": "AABB",
+        "zonaEleitoral": 65,
+        "secaoEleitoral": 6502,
+        "microrregiao": "Sertão"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -40.4986,
+          -7.5765
+        ]
+      },
+      "properties": {
+        "totalEleitores": 6200,
+        "municipio": "Araripina",
+        "bairro": "Centro",
+        "zonaEleitoral": 70,
+        "secaoEleitoral": 7001,
+        "microrregiao": "Sertão"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -40.48,
+          -7.59
+        ]
+      },
+      "properties": {
+        "totalEleitores": 3100,
+        "municipio": "Araripina",
+        "bairro": "Alto do Cruzeiro",
+        "zonaEleitoral": 70,
+        "secaoEleitoral": 7002,
+        "microrregiao": "Sertão"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -39.119,
+          -8.074
+        ]
+      },
+      "properties": {
+        "totalEleitores": 5400,
+        "municipio": "Salgueiro",
+        "bairro": "Centro",
+        "zonaEleitoral": 75,
+        "secaoEleitoral": 7501,
+        "microrregiao": "Sertão"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -37.054,
+          -8.418
+        ]
+      },
+      "properties": {
+        "totalEleitores": 7200,
+        "municipio": "Arcoverde",
+        "bairro": "Centro",
+        "zonaEleitoral": 78,
+        "secaoEleitoral": 7801,
+        "microrregiao": "Sertão"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -40.082,
+          -7.883
+        ]
+      },
+      "properties": {
+        "totalEleitores": 3800,
+        "municipio": "Ouricuri",
+        "bairro": "Centro",
+        "zonaEleitoral": 80,
+        "secaoEleitoral": 8001,
+        "microrregiao": "Sertão"
+      }
+    }
+  ]
+}

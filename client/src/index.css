@@ -5,49 +5,49 @@
  * Tema escuro premium com acentos vibrantes.
  */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 /* ─── CSS Custom Properties ────────────────────────────────────────────────── */
 
 :root {
-  /* Cores primárias */
-  --color-bg-primary: #0a0e1a;
-  --color-bg-secondary: #111827;
-  --color-bg-tertiary: #1a2236;
-  --color-bg-glass: rgba(17, 24, 39, 0.75);
+  /* Cores primárias (Padrão Berlim) */
+  --color-bg-primary: #030311;       /* Preto Eclipse */
+  --color-bg-secondary: #080816;     /* Escuro secundário */
+  --color-bg-tertiary: #111124;      /* Escuro terciário */
+  --color-bg-glass: rgba(8, 8, 22, 0.75);
 
   /* Superfícies e bordas */
-  --color-surface: #1e293b;
-  --color-surface-hover: #263044;
-  --color-border: rgba(148, 163, 184, 0.12);
-  --color-border-active: rgba(99, 179, 237, 0.4);
+  --color-surface: #061F6B;          /* Azul Abissal */
+  --color-surface-hover: #0c2d94;
+  --color-border: rgba(255, 255, 255, 0.08); /* Borda escura Berlim */
+  --color-border-active: rgba(9, 65, 220, 0.4);
 
   /* Texto */
-  --color-text-primary: #f1f5f9;
+  --color-text-primary: #F2F8FF;     /* Branco Névoa */
   --color-text-secondary: #94a3b8;
   --color-text-muted: #64748b;
 
   /* Acentos */
-  --color-accent: #3b82f6;
-  --color-accent-glow: rgba(59, 130, 246, 0.25);
-  --color-accent-light: #60a5fa;
+  --color-accent: #0941DC;           /* Azul Pulso */
+  --color-accent-glow: rgba(9, 65, 220, 0.25);
+  --color-accent-light: #547cf5;
   --color-success: #10b981;
   --color-warning: #f59e0b;
   --color-error: #ef4444;
 
   /* Gradientes */
-  --gradient-header: linear-gradient(135deg, #0a0e1a 0%, #1a1a4e 50%, #1e293b 100%);
-  --gradient-accent: linear-gradient(135deg, #3b82f6, #8b5cf6);
-  --gradient-sidebar: linear-gradient(180deg, #111827 0%, #0f172a 100%);
+  --gradient-header: linear-gradient(135deg, #030311 0%, #061F6B 50%, #080816 100%);
+  --gradient-accent: linear-gradient(135deg, #0941DC, #8b5cf6);
+  --gradient-sidebar: linear-gradient(180deg, #080816 0%, #030311 100%);
 
   /* Sombras */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.15);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.8);
+  --shadow-glow: 0 0 20px rgba(9, 65, 220, 0.15);
 
   /* Tipografia */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
   /* Espaçamentos */

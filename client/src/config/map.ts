@@ -21,15 +21,15 @@ export const PE_CENTER = {
 export const PE_INITIAL_ZOOM = 7.2;
 
 /** Zoom mínimo e máximo permitidos */
-export const PE_MIN_ZOOM = 6.5;
-export const PE_MAX_ZOOM = 14;
+export const PE_MIN_ZOOM = 4;
+export const PE_MAX_ZOOM = 18;
 
 /**
- * Estilo base do mapa — CartoDB Positron
- * Fundo neutro/limpo, 100% open-source, sem API key.
+ * Estilo base do mapa — CartoDB Dark Matter
+ * Fundo escuro premium que destaca perfeitamente o heatmap, sem necessidade de API key.
  */
 export const MAP_STYLE_URL =
-  'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
+  'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
 
 /**
  * Configuração da camada de heatmap do MapLibre.

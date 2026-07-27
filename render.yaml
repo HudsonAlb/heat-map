@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: berlim-geovoto-bdash
+    env: node
+    buildCommand: npm run build
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 3001
+      - key: NODE_ENV
+        value: production
