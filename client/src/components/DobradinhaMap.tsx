@@ -56,14 +56,15 @@ export const DobradinhaMap: React.FC<DobradinhaMapProps> = ({
     return {
       type: 'FeatureCollection' as const,
       features: territorios.map((t) => {
+        // Peso calibrado com curva progressiva para garantir manchas nítidas e brilhantes
         let rawVal = t.forca_dobradinha;
         if (modo === 'isolado_x') rawVal = t.aderencia_A;
         if (modo === 'isolado_y') rawVal = t.aderencia_B;
         if (modo === 'sobreposicao') rawVal = t.sobreposicao;
         if (modo === 'diferencial') rawVal = Math.abs(t.aderencia_A - t.aderencia_B);
 
-        // Peso calibrado de 0.20 a 1.0 para manter blobs de alta densidade visíveis
-        const weight = Math.min(Math.max(rawVal * 3.5, 0.2), 1.0);
+        // Calibração de peso de 0.3 a 1.0 para criar um gradiente de mancha continuo e denso
+        const weight = Math.min(Math.max(rawVal * 2.8, 0.3), 1.0);
 
         // Cor do indicador para o modo diferencial
         const ehDominoX = t.aderencia_A >= t.aderencia_B;
@@ -91,46 +92,47 @@ export const DobradinhaMap: React.FC<DobradinhaMapProps> = ({
     };
   }, [territorios, modo]);
 
-  // Rampa Térmica Contínua Oficial: Estritamente de Azul (#0941dc) até Vermelho (#ef4444)
+  // Rampa Térmica Eletrizante: Gradiente Vibrante de Alta Fidelidade (Azul Indigo -> Ciano -> Verde -> Amarelo -> Laranja -> Vermelho)
   const heatmapColorRamp = useMemo(() => {
     return [
       'interpolate',
       ['linear'],
       ['heatmap-density'],
-      0, 'rgba(9, 65, 220, 0)',
-      0.15, '#0941dc', // Azul Berlim (Mínimo)
-      0.35, '#06b6d4', // Ciano
-      0.55, '#10b981', // Verde Neon
-      0.75, '#f59e0b', // Amarelo / Dourado
-      1.0, '#ef4444',  // Vermelho Vivo (Máximo)
+      0, 'rgba(3, 3, 17, 0)',
+      0.15, 'rgba(9, 65, 220, 0.65)',  // Azul Indigo Berlim
+      0.35, '#06b6d4',                // Ciano Elétrico
+      0.55, '#10b981',                // Verde Esmeralda
+      0.75, '#facc15',                // Amarelo Néon
+      0.90, '#f97316',                // Laranja Fogo
+      1.0,  '#ef4444',                // Vermelho Rubi Intenso
     ];
   }, []);
 
-  // Camada Heatmap de Alta Densidade de Azul até Vermelho
+  // Camada Heatmap de Alta Densidade e Impacto Visual
   const heatmapLayerStyle: Omit<HeatmapLayerSpecification, 'source'> = {
     id: 'geovoto-heatmap',
     type: 'heatmap',
     paint: {
       'heatmap-weight': ['get', 'weight'],
-      'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 4, 1.5, 7, 3.2, 11, 5.0],
+      'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 4, 1.8, 8, 3.5, 12, 6.0],
       'heatmap-color': heatmapColorRamp as any,
-      'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 4, 40, 7, 65, 10, 100, 14, 150],
-      'heatmap-opacity': 0.92,
+      'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 4, 25, 7, 45, 10, 75, 14, 110],
+      'heatmap-opacity': 0.88,
     },
   };
 
-  // Camada de Pontos (Sutil no modo heatmap, visível no modo diferencial)
+  // Camada de Pontos de Foco (Marcadores com contorno brilhante)
   const circleLayerStyle: Omit<CircleLayerSpecification, 'source'> = {
     id: 'geovoto-points',
     type: 'circle',
     paint: {
       'circle-radius': modo === 'diferencial'
-        ? ['interpolate', ['linear'], ['zoom'], 5, 8, 14, 16]
-        : 6,
+        ? ['interpolate', ['linear'], ['zoom'], 5, 7, 14, 15]
+        : ['interpolate', ['linear'], ['zoom'], 5, 5, 12, 10],
       'circle-color': modo === 'diferencial' ? ['get', 'colorDiff'] : '#ffffff',
-      'circle-stroke-width': modo === 'diferencial' ? 2 : 1,
-      'circle-stroke-color': '#0941dc',
-      'circle-opacity': modo === 'diferencial' ? 0.9 : 0.4,
+      'circle-stroke-width': 2,
+      'circle-stroke-color': modo === 'diferencial' ? '#ffffff' : '#0941dc',
+      'circle-opacity': modo === 'diferencial' ? 0.95 : 0.85,
     },
   };
 
@@ -339,7 +341,7 @@ export const DobradinhaMap: React.FC<DobradinhaMapProps> = ({
         </div>
       )}
 
-      {/* LEGENDA DINÂMICA: ESTRITAMENTE DE AZUL ATÉ VERMELHO */}
+      {/* LEGENDA DINÂMICA: GRADIENTE NEON HIGH-DENSITY */}
       <div className="map-dynamic-legend-overlay">
         <div className="legend-title-row">
           <span>Modo Visual: <strong>{legendTitle}</strong></span>
@@ -347,9 +349,10 @@ export const DobradinhaMap: React.FC<DobradinhaMapProps> = ({
         <div className="legend-heat-bar-wrapper">
           <div className="legend-heat-bar"></div>
           <div className="legend-heat-labels">
-            <span>🟦 Baixa (Azul)</span>
-            <span>🟩 Média</span>
-            <span>🟥 Alta (Vermelho)</span>
+            <span>🔵 Baixa (Azul)</span>
+            <span>🟢 Média</span>
+            <span>🟡 Alta</span>
+            <span>🔴 Máxima (Vermelho)</span>
           </div>
         </div>
       </div>
