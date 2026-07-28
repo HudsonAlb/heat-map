@@ -6,7 +6,6 @@ interface HeaderBarProps {
   usuariosDisponiveis: UsuarioRBAC[];
   onTrocarUsuario: (user: UsuarioRBAC) => void;
   onLogout: () => void;
-  onOpenDobradinhas: () => void;
   lastUpdateTimestamp: string;
 }
 
@@ -15,7 +14,6 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
   usuariosDisponiveis,
   onTrocarUsuario,
   onLogout,
-  onOpenDobradinhas,
   lastUpdateTimestamp,
 }) => {
   return (
@@ -61,14 +59,6 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
           </select>
         </div>
 
-        {/* Botão Dobradinhas Salvas */}
-        <button
-          className="btn btn-secondary btn-sm"
-          onClick={onOpenDobradinhas}
-          title="Ver e salvar dobradinhas nomeadas"
-        >
-          ⭐ Dobradinhas
-        </button>
 
         {/* Botão Logout */}
         <button

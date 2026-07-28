@@ -265,7 +265,6 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
         usuariosDisponiveis={USUARIOS_DEMO}
         onTrocarUsuario={setUsuarioAtual}
         onLogout={handleLogoutAction}
-        onOpenDobradinhas={() => setIsDobradinhasModalOpen(true)}
         lastUpdateTimestamp="27/07/2026 06:00"
       />
 
