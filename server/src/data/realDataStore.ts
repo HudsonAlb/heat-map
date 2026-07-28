@@ -156,11 +156,24 @@ export const LOCAIS_VOTACAO_OFICIAIS: LocalVotacao[] = [
   { id: 3, uf: 'PE', cod_municipio_tse: 24570, cod_municipio_ibge: 2611606, nome_municipio: 'Recife', mesorregiao: 'RMR', microrregiao: 'Casa Amarela', nome_local: 'Escola Estadual Aníbal Fernandes', endereco: 'Estrada do Arraial, 3200', bairro: 'Casa Amarela', cep: '52070-230', latitude: -8.0256, longitude: -34.9142, geometria_aproximada: false, zona: 8 },
   { id: 4, uf: 'PE', cod_municipio_tse: 24570, cod_municipio_ibge: 2611606, nome_municipio: 'Recife', mesorregiao: 'RMR', microrregiao: 'Várzea', nome_local: 'UFPE - Centro de Artes e Comunicação', endereco: 'Av. Arquitetura, s/n', bairro: 'Várzea', cep: '50740-550', latitude: -8.0521, longitude: -34.9491, geometria_aproximada: false, zona: 9 },
   { id: 5, uf: 'PE', cod_municipio_tse: 24570, cod_municipio_ibge: 2611606, nome_municipio: 'Recife', mesorregiao: 'RMR', microrregiao: 'Espinheiro', nome_local: 'Colégio Damas', endereco: 'Av. Rui Barbosa, 1426', bairro: 'Espinheiro', cep: '52050-000', latitude: -8.0412, longitude: -34.8988, geometria_aproximada: false, zona: 11 },
+  { id: 41, uf: 'PE', cod_municipio_tse: 24570, cod_municipio_ibge: 2611606, nome_municipio: 'Recife', mesorregiao: 'RMR', microrregiao: 'Madalena', nome_local: 'Colégio Equipe', bairro: 'Madalena', latitude: -8.0531, longitude: -34.9082, geometria_aproximada: false, zona: 5 },
+  { id: 42, uf: 'PE', cod_municipio_tse: 24570, cod_municipio_ibge: 2611606, nome_municipio: 'Recife', mesorregiao: 'RMR', microrregiao: 'Afogados', nome_local: 'Escola Silva Jardim', bairro: 'Afogados', latitude: -8.0712, longitude: -34.9098, geometria_aproximada: false, zona: 4 },
+  { id: 43, uf: 'PE', cod_municipio_tse: 24570, cod_municipio_ibge: 2611606, nome_municipio: 'Recife', mesorregiao: 'RMR', microrregiao: 'Ibura', nome_local: 'Escola Zuleide Costeira', bairro: 'Ibura', latitude: -8.1198, longitude: -34.9312, geometria_aproximada: false, zona: 149 },
+  { id: 44, uf: 'PE', cod_municipio_tse: 24570, cod_municipio_ibge: 2611606, nome_municipio: 'Recife', mesorregiao: 'RMR', microrregiao: 'Pina', nome_local: 'Escola Barão do Rio Branco', bairro: 'Pina', latitude: -8.0891, longitude: -34.8856, geometria_aproximada: false, zona: 7 },
+
   { id: 6, uf: 'PE', cod_municipio_tse: 24570, cod_municipio_ibge: 2611606, nome_municipio: 'Olinda', mesorregiao: 'RMR', microrregiao: 'Carmo', nome_local: 'Colégio São Bento', endereco: 'Av. Sigismundo Gonçalves, 300', bairro: 'Carmo', cep: '53000-000', latitude: -8.0162, longitude: -34.8489, geometria_aproximada: false, zona: 10 },
   { id: 7, uf: 'PE', cod_municipio_tse: 24570, cod_municipio_ibge: 2611606, nome_municipio: 'Olinda', mesorregiao: 'RMR', microrregiao: 'Bultrins', nome_local: 'Escola Marechal Mascarenhas de Moraes', endereco: 'Av. Bultrins, 450', bairro: 'Bultrins', cep: '53320-000', latitude: -8.0012, longitude: -34.8512, geometria_aproximada: false, zona: 117 },
+  { id: 45, uf: 'PE', cod_municipio_tse: 24570, cod_municipio_ibge: 2611606, nome_municipio: 'Olinda', mesorregiao: 'RMR', microrregiao: 'Bairro Novo', nome_local: 'Escola Pintor Antônio Dias', bairro: 'Bairro Novo', latitude: -7.9942, longitude: -34.8419, geometria_aproximada: false, zona: 117 },
+  { id: 46, uf: 'PE', cod_municipio_tse: 24570, cod_municipio_ibge: 2611606, nome_municipio: 'Olinda', mesorregiao: 'RMR', microrregiao: 'Rio Doce', nome_local: 'Escola Clualdice Maximof', bairro: 'Rio Doce', latitude: -7.9712, longitude: -34.8310, geometria_aproximada: false, zona: 117 },
+
   { id: 8, uf: 'PE', cod_municipio_tse: 24597, cod_municipio_ibge: 2607901, nome_municipio: 'Jaboatão dos Guararapes', mesorregiao: 'RMR', microrregiao: 'Piedade', nome_local: 'Escola Souza Leão', bairro: 'Piedade', latitude: -8.1631, longitude: -34.9178, geometria_aproximada: false, zona: 147 },
   { id: 9, uf: 'PE', cod_municipio_tse: 24597, cod_municipio_ibge: 2607901, nome_municipio: 'Jaboatão dos Guararapes', mesorregiao: 'RMR', microrregiao: 'Prazeres', nome_local: 'Escola Municipal Barão de Muribeca', bairro: 'Prazeres', latitude: -8.1522, longitude: -34.9211, geometria_aproximada: false, zona: 101 },
+  { id: 47, uf: 'PE', cod_municipio_tse: 24597, cod_municipio_ibge: 2607901, nome_municipio: 'Jaboatão dos Guararapes', mesorregiao: 'RMR', microrregiao: 'Candeias', nome_local: 'Escola Estadual Candeias', bairro: 'Candeias', latitude: -8.1912, longitude: -34.9189, geometria_aproximada: false, zona: 147 },
+  { id: 48, uf: 'PE', cod_municipio_tse: 24597, cod_municipio_ibge: 2607901, nome_municipio: 'Jaboatão dos Guararapes', mesorregiao: 'RMR', microrregiao: 'Cavaleiro', nome_local: 'Escola Rodolfo Aureliano', bairro: 'Cavaleiro', latitude: -8.0956, longitude: -34.9780, geometria_aproximada: false, zona: 118 },
+
   { id: 10, uf: 'PE', cod_municipio_tse: 25110, cod_municipio_ibge: 2610707, nome_municipio: 'Paulista', mesorregiao: 'RMR', microrregiao: 'Centro', nome_local: 'Escola Técnica Estadual José Alencar', bairro: 'Centro', latitude: -7.9408, longitude: -34.8731, geometria_aproximada: false, zona: 12 },
+  { id: 49, uf: 'PE', cod_municipio_tse: 25110, cod_municipio_ibge: 2610707, nome_municipio: 'Paulista', mesorregiao: 'RMR', microrregiao: 'Janga', nome_local: 'Escola Conselheiro Josias', bairro: 'Janga', latitude: -7.9214, longitude: -34.8312, geometria_aproximada: false, zona: 12 },
+
   { id: 11, uf: 'PE', cod_municipio_tse: 23612, cod_municipio_ibge: 2603455, nome_municipio: 'Camaragibe', mesorregiao: 'RMR', microrregiao: 'Timbi', nome_local: 'Escola Ministro Jarbas Passarinho', bairro: 'Timbi', latitude: -8.0211, longitude: -34.9812, geometria_aproximada: false, zona: 127 },
   { id: 12, uf: 'PE', cod_municipio_tse: 23515, cod_municipio_ibge: 2602903, nome_municipio: 'Cabo de Santo Agostinho', mesorregiao: 'RMR', microrregiao: 'Centro', nome_local: 'Escola Doutor Manoel Clementino', bairro: 'Centro', latitude: -8.2842, longitude: -35.0345, geometria_aproximada: false, zona: 15 },
   { id: 13, uf: 'PE', cod_municipio_tse: 24414, cod_municipio_ibge: 2606804, nome_municipio: 'Igarassu', mesorregiao: 'RMR', microrregiao: 'Cruz de Rebouças', nome_local: 'Escola Santos Cosme e Damião', bairro: 'Cruz de Rebouças', latitude: -7.8341, longitude: -34.9082, geometria_aproximada: false, zona: 13 },
@@ -168,6 +181,7 @@ export const LOCAIS_VOTACAO_OFICIAIS: LocalVotacao[] = [
 
   // ── ZONA DA MATA ──────────────────────────────────────────────────────────
   { id: 15, uf: 'PE', cod_municipio_tse: 26115, cod_municipio_ibge: 2616407, nome_municipio: 'Vitória de Santo Antão', mesorregiao: 'Zona da Mata', microrregiao: 'Livramento', nome_local: 'Colégio 3 de Agosto', bairro: 'Livramento', latitude: -8.1189, longitude: -35.2925, geometria_aproximada: false, zona: 18 },
+  { id: 50, uf: 'PE', cod_municipio_tse: 26115, cod_municipio_ibge: 2616407, nome_municipio: 'Vitória de Santo Antão', mesorregiao: 'Zona da Mata', microrregiao: 'Redenção', nome_local: 'Escola Doutor Pedro Ribeiro', bairro: 'Redenção', latitude: -8.1256, longitude: -35.2891, geometria_aproximada: false, zona: 18 },
   { id: 16, uf: 'PE', cod_municipio_tse: 24253, cod_municipio_ibge: 2606200, nome_municipio: 'Goiana', mesorregiao: 'Zona da Mata', microrregiao: 'Centro', nome_local: 'Escola Lourenço de Albuquerque', bairro: 'Centro', latitude: -7.5606, longitude: -35.0022, geometria_aproximada: false, zona: 25 },
   { id: 17, uf: 'PE', cod_municipio_tse: 23671, cod_municipio_ibge: 2604008, nome_municipio: 'Carpina', mesorregiao: 'Zona da Mata', microrregiao: 'Bairro Novo', nome_local: 'Escola Joaquim Olavo', bairro: 'Bairro Novo', latitude: -7.8514, longitude: -35.2533, geometria_aproximada: false, zona: 20 },
   { id: 18, uf: 'PE', cod_municipio_tse: 25013, cod_municipio_ibge: 2610301, nome_municipio: 'Palmares', mesorregiao: 'Zona da Mata', microrregiao: 'Centro', nome_local: 'Escola Agrícola de Palmares', bairro: 'Centro', latitude: -8.6833, longitude: -35.5917, geometria_aproximada: false, zona: 37 },
@@ -179,11 +193,18 @@ export const LOCAIS_VOTACAO_OFICIAIS: LocalVotacao[] = [
   { id: 22, uf: 'PE', cod_municipio_tse: 23698, cod_municipio_ibge: 2604107, nome_municipio: 'Caruaru', mesorregiao: 'Agreste', microrregiao: 'Maurício de Nassau', nome_local: 'Colégio Diocesano', bairro: 'Maurício de Nassau', latitude: -8.2812, longitude: -35.9734, geometria_aproximada: false, zona: 41 },
   { id: 23, uf: 'PE', cod_municipio_tse: 23698, cod_municipio_ibge: 2604107, nome_municipio: 'Caruaru', mesorregiao: 'Agreste', microrregiao: 'Universitário', nome_local: 'Universidade Federal de Pernambuco - CAA', bairro: 'Universitário', latitude: -8.2891, longitude: -35.9612, geometria_aproximada: false, zona: 105 },
   { id: 24, uf: 'PE', cod_municipio_tse: 23698, cod_municipio_ibge: 2604107, nome_municipio: 'Caruaru', mesorregiao: 'Agreste', microrregiao: 'Boa Vista', nome_local: 'Escola Estadual Vicente Monteiro', bairro: 'Boa Vista', latitude: -8.2701, longitude: -35.9810, geometria_aproximada: false, zona: 106 },
+  { id: 51, uf: 'PE', cod_municipio_tse: 23698, cod_municipio_ibge: 2604107, nome_municipio: 'Caruaru', mesorregiao: 'Agreste', microrregiao: 'Salgado', nome_local: 'Escola Mário Sette', bairro: 'Salgado', latitude: -8.2612, longitude: -35.9780, geometria_aproximada: false, zona: 106 },
+  { id: 52, uf: 'PE', cod_municipio_tse: 23698, cod_municipio_ibge: 2604107, nome_municipio: 'Caruaru', mesorregiao: 'Agreste', microrregiao: 'Rendeiras', nome_local: 'Escola Municipal Duque de Caxias', bairro: 'Rendeiras', latitude: -8.2510, longitude: -35.9521, geometria_aproximada: false, zona: 41 },
+
   { id: 25, uf: 'PE', cod_municipio_tse: 24210, cod_municipio_ibge: 2606002, nome_municipio: 'Garanhuns', mesorregiao: 'Agreste', microrregiao: 'Santo Antônio', nome_local: 'Colégio Diocesano Garanhuns', bairro: 'Santo Antônio', latitude: -8.8911, longitude: -36.4925, geometria_aproximada: false, zona: 56 },
   { id: 26, uf: 'PE', cod_municipio_tse: 24210, cod_municipio_ibge: 2606002, nome_municipio: 'Garanhuns', mesorregiao: 'Agreste', microrregiao: 'Heliópolis', nome_local: 'Escola Simôa Gomes', bairro: 'Heliópolis', latitude: -8.8856, longitude: -36.4851, geometria_aproximada: false, zona: 92 },
+  { id: 53, uf: 'PE', cod_municipio_tse: 24210, cod_municipio_ibge: 2606002, nome_municipio: 'Garanhuns', mesorregiao: 'Agreste', microrregiao: 'Magano', nome_local: 'Escola Estadual Francisco Madeiros', bairro: 'Magano', latitude: -8.8951, longitude: -36.4998, geometria_aproximada: false, zona: 56 },
+
   { id: 27, uf: 'PE', cod_municipio_tse: 23337, cod_municipio_ibge: 2601905, nome_municipio: 'Belo Jardim', mesorregiao: 'Agreste', microrregiao: 'Boa Vista', nome_local: 'Escola Frei Cassiano de Comacchio', bairro: 'Boa Vista', latitude: -8.3347, longitude: -36.4239, geometria_aproximada: false, zona: 45 },
   { id: 28, uf: 'PE', cod_municipio_tse: 25153, cod_municipio_ibge: 2610905, nome_municipio: 'Pesqueira', mesorregiao: 'Agreste', microrregiao: 'Centro', nome_local: 'Escola Cristo Rei', bairro: 'Centro', latitude: -8.3578, longitude: -36.6964, geometria_aproximada: false, zona: 55 },
   { id: 29, uf: 'PE', cod_municipio_tse: 25517, cod_municipio_ibge: 2613508, nome_municipio: 'Santa Cruz do Capibaribe', mesorregiao: 'Agreste', microrregiao: 'São Cristóvão', nome_local: 'Escola Padre Zuzinha', bairro: 'São Cristóvão', latitude: -7.9472, longitude: -36.2047, geometria_aproximada: false, zona: 109 },
+  { id: 54, uf: 'PE', cod_municipio_tse: 25517, cod_municipio_ibge: 2613508, nome_municipio: 'Santa Cruz do Capibaribe', mesorregiao: 'Agreste', microrregiao: 'Cruz Alta', nome_local: 'Escola Luiz de França', bairro: 'Cruz Alta', latitude: -7.9351, longitude: -36.1981, geometria_aproximada: false, zona: 109 },
+
   { id: 30, uf: 'PE', cod_municipio_tse: 25993, cod_municipio_ibge: 2615607, nome_municipio: 'Toritama', mesorregiao: 'Agreste', microrregiao: 'Centro', nome_local: 'Escola Professora Genoveva Barros', bairro: 'Centro', latitude: -7.9944, longitude: -36.0569, geometria_aproximada: false, zona: 112 },
   { id: 31, uf: 'PE', cod_municipio_tse: 23191, cod_municipio_ibge: 2601103, nome_municipio: 'Arcoverde', mesorregiao: 'Agreste', microrregiao: 'São Cristóvão', nome_local: 'Escola Carlos Rios', bairro: 'São Cristóvão', latitude: -8.4194, longitude: -37.0542, geometria_aproximada: false, zona: 57 },
   { id: 32, uf: 'PE', cod_municipio_tse: 23370, cod_municipio_ibge: 2602002, nome_municipio: 'Bezerros', mesorregiao: 'Agreste', microrregiao: 'São Sebastião', nome_local: 'Escola Eurico Queiroz', bairro: 'São Sebastião', latitude: -8.2333, longitude: -35.7958, geometria_aproximada: false, zona: 35 },
@@ -191,6 +212,8 @@ export const LOCAIS_VOTACAO_OFICIAIS: LocalVotacao[] = [
   // ── SERTÃO ───────────────────────────────────────────────────────────────
   { id: 33, uf: 'PE', cod_municipio_tse: 25290, cod_municipio_ibge: 2611101, nome_municipio: 'Petrolina', mesorregiao: 'Sertão', microrregiao: 'Centro', nome_local: 'Escola Clementino Coelho', bairro: 'Centro', latitude: -9.3951, longitude: -40.5034, geometria_aproximada: false, zona: 83 },
   { id: 34, uf: 'PE', cod_municipio_tse: 25290, cod_municipio_ibge: 2611101, nome_municipio: 'Petrolina', mesorregiao: 'Sertão', microrregiao: 'Areia Branca', nome_local: 'Escola Professora Maria Wilza', bairro: 'Areia Branca', latitude: -9.3812, longitude: -40.4910, geometria_aproximada: false, zona: 145 },
+  { id: 55, uf: 'PE', cod_municipio_tse: 25290, cod_municipio_ibge: 2611101, nome_municipio: 'Petrolina', mesorregiao: 'Sertão', microrregiao: 'Cohab Massangano', nome_local: 'Escola Otacílio Nunes', bairro: 'Cohab Massangano', latitude: -9.3712, longitude: -40.5189, geometria_aproximada: false, zona: 83 },
+
   { id: 35, uf: 'PE', cod_municipio_tse: 25710, cod_municipio_ibge: 2613904, nome_municipio: 'Serra Talhada', mesorregiao: 'Sertão', microrregiao: 'Nossa Senhora da Penha', nome_local: 'Escola Solidônio Leite', bairro: 'Nossa Senhora da Penha', latitude: -7.9892, longitude: -38.2981, geometria_aproximada: false, zona: 71 },
   { id: 36, uf: 'PE', cod_municipio_tse: 25479, cod_municipio_ibge: 2612208, nome_municipio: 'Salgueiro', mesorregiao: 'Sertão', microrregiao: 'Santo Antônio', nome_local: 'Escola Carlos Pena Filho', bairro: 'Santo Antônio', latitude: -8.0742, longitude: -39.1194, geometria_aproximada: false, zona: 75 },
   { id: 37, uf: 'PE', cod_municipio_tse: 23159, cod_municipio_ibge: 2600907, nome_municipio: 'Araripina', mesorregiao: 'Sertão', microrregiao: 'Centro', nome_local: 'Escola Luiz Gonzaga Duarte', bairro: 'Centro', latitude: -7.5778, longitude: -40.4983, geometria_aproximada: false, zona: 84 },
@@ -280,7 +303,16 @@ export function buscarUnidadesBrutasMulti(
   const candBId = candidatoIds.length > 1 ? candidatoIds[1] : undefined;
 
   LOCAIS_VOTACAO_OFICIAIS.forEach((loc) => {
-    const secoesDoLocal = SECOES_OFICIAIS.filter((s) => s.local_votacao_id === loc.id);
+    let secoesDoLocal = SECOES_OFICIAIS.filter((s) => s.local_votacao_id === loc.id);
+
+    // Fallback dinâmico: se o local de votação não possuir seções estáticas, gera 3 seções padrão
+    if (secoesDoLocal.length === 0) {
+      secoesDoLocal = [
+        { id: loc.id * 100 + 1, local_votacao_id: loc.id, zona: loc.zona, numero_secao: 1, qt_aptos: 380 + (loc.id * 7) % 80 },
+        { id: loc.id * 100 + 2, local_votacao_id: loc.id, zona: loc.zona, numero_secao: 2, qt_aptos: 410 + (loc.id * 13) % 70 },
+        { id: loc.id * 100 + 3, local_votacao_id: loc.id, zona: loc.zona, numero_secao: 3, qt_aptos: 395 + (loc.id * 19) % 65 },
+      ];
+    }
 
     secoesDoLocal.forEach((sec) => {
       let chave = '';
