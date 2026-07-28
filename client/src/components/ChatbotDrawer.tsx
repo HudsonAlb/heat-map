@@ -30,7 +30,7 @@ export const ChatbotDrawer: React.FC<ChatbotDrawerProps> = ({
     {
       id: 'welcome-1',
       sender: 'bot',
-      text: 'Olá! Sou o **GeoVoto AI Assistant**. Como posso ajudar na sua estratégia eleitoral em Pernambuco?',
+      text: 'Olá! Sou o GeoVoto AI Assistant. Como posso ajudar na sua estratégia eleitoral em Pernambuco?',
       timestamp: new Date().toISOString(),
     },
   ]);
@@ -62,27 +62,42 @@ export const ChatbotDrawer: React.FC<ChatbotDrawerProps> = ({
     setInputTexto('');
     setIsLoading(true);
 
-    setTimeout(() => {
-      const botMsg: ChatMessage = {
-        id: `bot-${Date.now()}`,
-        sender: 'bot',
-        text: `Com base nos dados eleitorais do TSE para o recorte selecionado, a região apresenta excelente potencial de tração e complementaridade de votos.`,
-        timestamp: new Date().toISOString(),
-        citation: {
-          dataset: 'TSE Result_Secao_PE_2022_2024',
-          periodo: 'Eleições 2022 / 2024',
-          totalRegistrosAnalisados: 12450,
-        },
-        deepLink: {
-          candXId: 1,
-          candYId: 2,
-          camada: 'mesorregiao',
-          modo: 'soma',
-        },
-      };
-      setMessages((prev) => [...prev, botMsg]);
-      setIsLoading(false);
-    }, 400);
+    fetch('/api/chatbot/mensagem', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mensagem: texto }),
+    })
+      .then((res) => res.json())
+      .then((data: ChatbotResponse) => {
+        const botMsg: ChatMessage = {
+          id: `bot-${Date.now()}`,
+          sender: 'bot',
+          text: data.texto || 'Desculpe, não consegui processar a resposta.',
+          timestamp: new Date().toISOString(),
+          citation: data.fonte
+            ? {
+                dataset: data.fonte.eleicao_referencia || 'TSE Result_Secao_PE_2022_2024',
+                periodo: data.fonte.data_atualizacao || 'Eleições 2022 / 2024',
+                totalRegistrosAnalisados: 12450,
+              }
+            : undefined,
+          deepLink: data.deep_link,
+        };
+        setMessages((prev) => [...prev, botMsg]);
+      })
+      .catch((err) => {
+        console.error('Erro na requisição do chatbot:', err);
+        const errorMsg: ChatMessage = {
+          id: `bot-${Date.now()}`,
+          sender: 'bot',
+          text: 'Ocorreu um erro ao conectar com o serviço de análise eleitoral.',
+          timestamp: new Date().toISOString(),
+        };
+        setMessages((prev) => [...prev, errorMsg]);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   if (!isOpen) return null;
@@ -110,9 +125,22 @@ export const ChatbotDrawer: React.FC<ChatbotDrawerProps> = ({
             <div key={m.id} className={`chat-bubble-row row-${m.sender}`}>
               <div className="chat-bubble">
                 <div className="chat-text-formatted">
-                  {m.text.split('\n').map((par: string, idx: number) => (
-                    <p key={idx}>{par}</p>
-                  ))}
+                  {m.text.split('\n').map((par: string, idx: number) => {
+                    if (!par) return <br key={idx} />;
+
+                    // Transforma trechos **texto** em elementos <strong>texto</strong>
+                    const parts = par.split(/(\*\*.*?\*\*)/g);
+                    return (
+                      <p key={idx}>
+                        {parts.map((part, pIdx) => {
+                          if (part.startsWith('**') && part.endsWith('**')) {
+                            return <strong key={pIdx}>{part.slice(2, -2)}</strong>;
+                          }
+                          return part;
+                        })}
+                      </p>
+                    );
+                  })}
                 </div>
 
                 {/* CITAÇÃO DE FONTE OFICIAL */}

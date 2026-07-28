@@ -14,21 +14,43 @@ export function parseIntentFromText(mensagem: string): ChatbotIntent {
 
   // 1. Identifica Candidatos Mencionados
   const candIdsEncontrados: number[] = [];
-  CANDIDATOS_OFICIAIS.forEach((cand) => {
+
+  // Ordena os candidatos dando preferência a nomes de urna mais longos/específicos primeiro
+  const candidatosOrdenados = [...CANDIDATOS_OFICIAIS].sort(
+    (a, b) => b.nome_urna.length - a.nome_urna.length
+  );
+
+  candidatosOrdenados.forEach((cand) => {
     const nomeUrnaLower = cand.nome_urna.toLowerCase();
-    const partesNome = nomeUrnaLower.split(' ');
-    // Verifica se a frase contém o nome de urna ou partes marcantes do nome
-    if (texto.includes(nomeUrnaLower) || partesNome.every((p) => p.length > 2 && texto.includes(p))) {
-      candIdsEncontrados.push(cand.id);
+    const partesNome = nomeUrnaLower.split(' ').filter((p) => p.length > 2);
+
+    // Bate exact match do nome de urna
+    if (texto.includes(nomeUrnaLower)) {
+      if (!candIdsEncontrados.includes(cand.id)) {
+        candIdsEncontrados.push(cand.id);
+      }
+      return;
+    }
+
+    // Se a frase contiver o primeiro nome exato do candidato (ex: "pedro", "joão", "sileno")
+    const primeiroNome = partesNome[0];
+    if (primeiroNome && texto.includes(primeiroNome)) {
+      if (!candIdsEncontrados.includes(cand.id)) {
+        candIdsEncontrados.push(cand.id);
+      }
     }
   });
 
-  // Se nenhum for mencionado explicitamente, assume por padrão a dobradinha principal (Pedro Campos 101 + Sileno Gouveia 102)
-  const candidatos = candIdsEncontrados.length >= 2
-    ? candIdsEncontrados.slice(0, 2)
-    : candIdsEncontrados.length === 1
-      ? [candIdsEncontrados[0], 102]
-      : [101, 102];
+  // Define os candidatos no objeto de intenção
+  let candidatos: number[] = [];
+  if (candIdsEncontrados.length >= 2) {
+    candidatos = candIdsEncontrados.slice(0, 2);
+  } else if (candIdsEncontrados.length === 1) {
+    candidatos = [candIdsEncontrados[0]];
+  } else {
+    // Padrão se nenhum for citado
+    candidatos = [101, 102];
+  }
 
   // 2. Identifica Camada Geográfica
   let camada: CamadaGeografica = 'municipio';
@@ -60,15 +82,22 @@ export function parseIntentFromText(mensagem: string): ChatbotIntent {
   let intencao: ChatbotIntent['intencao'] = 'comparar_candidatos';
   let metrica: ChatbotIntent['metrica'] = 'forca';
 
-  if (texto.includes('oportunidade') || texto.includes('oportunidades')) {
+  // Se exatamente 1 candidato foi mencionado e o usuário pergunta a votação/desempenho
+  if (candIdsEncontrados.length === 1) {
+    intencao = 'voto_candidato_isolado';
+    metrica = 'votos_absolutos';
+  } else if (candIdsEncontrados.length === 0 && (texto.includes('quantos eleitores') || texto.includes('total de eleitores') || texto.includes('resumo') || texto.includes('eleitorado'))) {
+    intencao = 'resumo_metricas';
+    metrica = 'votos_absolutos';
+  } else if (candIdsEncontrados.length === 0 && (texto.includes('voto') || texto.includes('votação') || texto.includes('eleitores'))) {
+    intencao = 'voto_regiao_geral';
+    metrica = 'votos_absolutos';
+  } else if (texto.includes('oportunidade') || texto.includes('oportunidades')) {
     intencao = 'ranking_territorios';
     metrica = 'classificacao';
   } else if (texto.includes('mais forte') || texto.includes('forte') || texto.includes('desempenho') || texto.includes('maior')) {
     intencao = 'ranking_territorios';
     metrica = 'forca';
-  } else if (texto.includes('quantos eleitores') || texto.includes('total de eleitores') || texto.includes('resumo') || texto.includes('eleitorado')) {
-    intencao = 'resumo_metricas';
-    metrica = 'votos_absolutos';
   } else if (texto.includes('fraco') || texto.includes('complementar') || texto.includes('diferença')) {
     intencao = 'ranking_territorios';
     metrica = 'complementaridade';

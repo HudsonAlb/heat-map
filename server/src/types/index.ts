@@ -143,7 +143,9 @@ export type ChatbotIntencao =
   | 'ranking_territorios'
   | 'detalhe_territorio'
   | 'serie_historica'
-  | 'resumo_metricas';
+  | 'resumo_metricas'
+  | 'voto_candidato_isolado'
+  | 'voto_regiao_geral';
 
 export interface ChatbotIntent {
   intencao: ChatbotIntencao;

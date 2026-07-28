@@ -236,10 +236,10 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
 
   const handleApplyDeepLink = (deepLink: ChatbotResponse['deep_link']) => {
     const cX = candidatosLista.find((c) => c.id === deepLink.candXId);
-    const cY = candidatosLista.find((c) => c.id === deepLink.candYId);
+    const cY = deepLink.modo === 'isolado_x' ? undefined : candidatosLista.find((c) => c.id === deepLink.candYId);
 
     if (cX) setCandX(cX);
-    if (cY) setCandY(cY);
+    setCandY(cY);
     setCamadaAtiva(deepLink.camada);
     setModoAtivo(deepLink.modo);
     if (deepLink.microrregiao) setMesorregiaoAtiva(deepLink.microrregiao);

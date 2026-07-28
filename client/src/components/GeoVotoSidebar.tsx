@@ -294,7 +294,9 @@ export const GeoVotoSidebar: React.FC<GeoVotoSidebarProps> = ({
             <strong className="resumo-val">{totalSecoes}</strong>
           </div>
           <div className="resumo-metric-item highlight-item">
-            <span className="resumo-lbl">Total Votos da Parceria:</span>
+            <span className="resumo-lbl">
+              {!candY || modoAtivo === 'isolado_x' ? 'Total Votos (Candidato):' : 'Total Votos da Parceria:'}
+            </span>
             <strong className="resumo-val val-soma">{totalVotosParceria.toLocaleString('pt-BR')}</strong>
           </div>
         </div>
