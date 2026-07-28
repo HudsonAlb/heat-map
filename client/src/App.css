@@ -1137,6 +1137,12 @@ body {
   font-size: 12px;
   font-weight: 600;
   color: var(--color-text-secondary);
+  padding: 4px 10px;
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
 /* ─── Estilos de Células Métricas da Tabela Comparativa ────────────────────── */
 .table-cell-metric {
   display: flex;
