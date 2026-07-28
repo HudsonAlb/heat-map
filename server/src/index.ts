@@ -67,10 +67,14 @@ if (fs.existsSync(clientDistPath)) {
   });
 }
 
-// ─── Start ────────────────────────────────────────────────────────────────────
-app.listen(PORT, () => {
-  console.log(`\n🗳️  Plataforma Berlim Co. (GeoVoto + B DASH RevOps) — Backend Ativo`);
-  console.log(`   Servidor rodando em http://localhost:${PORT}`);
-  console.log(`   API GeoVoto: http://localhost:${PORT}/api/comparacao`);
-  console.log(`   API B DASH RevOps: http://localhost:${PORT}/api/revops/dashboard\n`);
-});
+// ─── Start (Se executado diretamente) ──────────────────────────────────────────
+if (require.main === module || process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`\n🗳️  Plataforma Berlim Co. (GeoVoto + B DASH RevOps) — Backend Ativo`);
+    console.log(`   Servidor rodando em http://localhost:${PORT}`);
+    console.log(`   API GeoVoto: http://localhost:${PORT}/api/comparacao`);
+    console.log(`   API B DASH RevOps: http://localhost:${PORT}/api/revops/dashboard\n`);
+  });
+}
+
+export default app;
