@@ -194,22 +194,26 @@ export const ComparisonTable: React.FC<ComparisonTableProps> = ({
               )}
               <th onClick={() => handleSort('forca_dobradinha')} className="th-sortable align-right col-soma">
                 <div className="th-content align-right">
-                  <span>Força Somada</span>
+                  <span>{candY ? 'Votação / Força Somada' : 'Total Votos'}</span>
                   {sortField === 'forca_dobradinha' && <span className="sort-arrow">{sortAsc ? '▲' : '▼'}</span>}
                 </div>
               </th>
-              <th onClick={() => handleSort('sobreposicao')} className="th-sortable align-right">
-                <div className="th-content align-right">
-                  <span>Sobreposição</span>
-                  {sortField === 'sobreposicao' && <span className="sort-arrow">{sortAsc ? '▲' : '▼'}</span>}
-                </div>
-              </th>
-              <th onClick={() => handleSort('complementaridade')} className="th-sortable align-right">
-                <div className="th-content align-right">
-                  <span>Complementaridade</span>
-                  {sortField === 'complementaridade' && <span className="sort-arrow">{sortAsc ? '▲' : '▼'}</span>}
-                </div>
-              </th>
+              {candY && (
+                <th onClick={() => handleSort('sobreposicao')} className="th-sortable align-right">
+                  <div className="th-content align-right">
+                    <span>Sobreposição</span>
+                    {sortField === 'sobreposicao' && <span className="sort-arrow">{sortAsc ? '▲' : '▼'}</span>}
+                  </div>
+                </th>
+              )}
+              {candY && (
+                <th onClick={() => handleSort('complementaridade')} className="th-sortable align-right">
+                  <div className="th-content align-right">
+                    <span>Complementaridade</span>
+                    {sortField === 'complementaridade' && <span className="sort-arrow">{sortAsc ? '▲' : '▼'}</span>}
+                  </div>
+                </th>
+              )}
               <th onClick={() => handleSort('classificacao')} className="th-sortable align-center">
                 <div className="th-content align-center">
                   <span>Classificação</span>
@@ -247,32 +251,29 @@ export const ComparisonTable: React.FC<ComparisonTableProps> = ({
                     <td className="align-right">
                       <div className="votos-cand-cell text-cand-x">
                         <strong className="number-font">{t.votos_A.toLocaleString('pt-BR')}</strong>
-                        <span className="pct-sub">{(t.aderencia_A * 100).toFixed(1)}%</span>
+                        <span className="pct-sub">{(t.aderencia_A * 100).toFixed(1)}% dos votos</span>
                       </div>
                     </td>
                     {candY && (
                       <td className="align-right">
                         <div className="votos-cand-cell text-cand-y">
                           <strong className="number-font">{t.votos_B.toLocaleString('pt-BR')}</strong>
-                          <span className="pct-sub">{(t.aderencia_B * 100).toFixed(1)}%</span>
+                          <span className="pct-sub">{(t.aderencia_B * 100).toFixed(1)}% dos votos</span>
                         </div>
                       </td>
                     )}
                     <td className="align-right">
                       <div className="forca-cell">
                         <strong className="number-font text-soma font-lg">
-                          {(t.forca_dobradinha * 100).toFixed(1)}%
+                          {(t.votos_A + (candY ? t.votos_B : 0)).toLocaleString('pt-BR')} votos
                         </strong>
-                        <div className="forca-mini-track">
-                          <div
-                            className="forca-mini-fill"
-                            style={{ width: `${Math.min(t.forca_dobradinha * 100 * 2, 100)}%` }}
-                          ></div>
-                        </div>
+                        <span className="pct-sub text-soma font-bold">
+                          {candY ? `Força: ${(t.forca_dobradinha * 100).toFixed(1)}%` : `Representação: ${(t.aderencia_A * 100).toFixed(1)}%`}
+                        </span>
                       </div>
                     </td>
-                    <td className="align-right number-font">{(t.sobreposicao * 100).toFixed(1)}%</td>
-                    <td className="align-right number-font font-bold">{(t.complementaridade * 100).toFixed(1)}%</td>
+                    {candY && <td className="align-right number-font">{(t.sobreposicao * 100).toFixed(1)}%</td>}
+                    {candY && <td className="align-right number-font font-bold">{(t.complementaridade * 100).toFixed(1)}%</td>}
                     <td className="align-center">{getStatusBadge(t.classificacao)}</td>
                   </tr>
                 );
