@@ -3,7 +3,7 @@ import type { UsuarioRBAC } from '../types/geovoto';
 
 interface LoginScreenProps {
   usuariosDisponiveis: UsuarioRBAC[];
-  onLoginSucesso: (usuario: UsuarioRBAC, moduloInicial: 'revops' | 'geovoto') => void;
+  onLoginSucesso: (usuario: UsuarioRBAC) => void;
 }
 
 export const LoginScreen: React.FC<LoginScreenProps> = ({
@@ -12,7 +12,6 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
 }) => {
   const [email, setEmail] = useState(usuariosDisponiveis[0]?.email || 'carlos@campanha.com.br');
   const [senha, setSenha] = useState('berlim2026');
-  const [modulo, setModulo] = useState<'revops' | 'geovoto'>('revops');
   const [erro, setErro] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -24,7 +23,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
 
     const usuario = usuariosDisponiveis.find((u) => u.email.toLowerCase() === email.toLowerCase());
     if (usuario) {
-      onLoginSucesso(usuario, modulo);
+      onLoginSucesso(usuario);
     } else {
       const novoUsuario: UsuarioRBAC = {
         id: 99,
@@ -33,7 +32,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
         papel: 'responsavel_campanha',
         escopo_geografico: { uf: 'PE' },
       };
-      onLoginSucesso(novoUsuario, modulo);
+      onLoginSucesso(novoUsuario);
     }
   };
 
@@ -43,29 +42,16 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
         {/* LOGO BERLIM CO & PLATAFORMAS */}
         <div className="login-brand-header">
           <div className="login-logo-mark">
-            <span className="logo-icon">📈</span>
+            <span className="logo-icon">🗺️</span>
           </div>
-          <h1 className="login-brand-title">B DASH & GEOVOTO</h1>
+          <h1 className="login-brand-title">GEOVOTO</h1>
           <span className="login-brand-sub">Berlim Co. Intelligence</span>
-          <p className="login-slogan">"Dash de RevOps & Inteligência Eleitoral Geográfica"</p>
+          <p className="login-slogan">"Inteligência Eleitoral Geográfica — Dados que transformam"</p>
         </div>
 
         {/* FORMULÁRIO DE LOGIN */}
         <form onSubmit={handleSubmit} className="login-form">
           {erro && <div className="login-error-badge">⚠️ {erro}</div>}
-
-          <div className="login-form-group">
-            <label htmlFor="login-modulo">Módulo de Acesso:</label>
-            <select
-              id="login-modulo"
-              className="login-input-select"
-              value={modulo}
-              onChange={(e) => setModulo(e.target.value as 'revops' | 'geovoto')}
-            >
-              <option value="revops">📈 B DASH — Dash de RevOps (CRM & Metas)</option>
-              <option value="geovoto">🗺️ GeoVoto — Inteligência Eleitoral Geográfica</option>
-            </select>
-          </div>
 
           <div className="login-form-group">
             <label htmlFor="login-email">Acesso de Perfil / E-mail:</label>
@@ -97,7 +83,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
           </div>
 
           <button type="submit" className="btn btn-primary btn-lg login-submit-btn">
-            🚀 Entrar na Plataforma Berlim Co.
+            🚀 Acessar Plataforma GeoVoto
           </button>
         </form>
 
