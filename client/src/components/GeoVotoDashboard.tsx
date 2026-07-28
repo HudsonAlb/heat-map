@@ -187,8 +187,20 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
   const municipiosDisponiveis = useMemo(() => {
     if (!resultado) return [];
     const setMuns = new Set(resultado.territorios.map((t) => t.nome_municipio || t.nome));
-    return Array.from(setMuns).sort((a, b) => a.localeCompare(b, 'pt-BR'));
+    return Array.from(setMuns).filter(Boolean).sort((a, b) => a.localeCompare(b, 'pt-BR'));
   }, [resultado]);
+
+  // Bairros disponíveis dinâmicos para a cidade selecionada
+  const bairrosDisponiveis = useMemo(() => {
+    if (!resultado || municipioAtivo === 'Todos') return [];
+    const setBairros = new Set<string>();
+    resultado.territorios.forEach((t) => {
+      if ((t.nome_municipio === municipioAtivo || t.nome === municipioAtivo) && t.bairro) {
+        setBairros.add(t.bairro);
+      }
+    });
+    return Array.from(setBairros).sort((a, b) => a.localeCompare(b, 'pt-BR'));
+  }, [resultado, municipioAtivo]);
 
   // Aplicação da Ordenação nos Territórios para Tabela e Lista
   const territoriosOrdenados = useMemo(() => {
@@ -347,6 +359,7 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
                 bairroAtivo={bairroAtivo}
                 onBairroChange={setBairroAtivo}
                 municipiosDisponiveis={municipiosDisponiveis}
+                bairrosDisponiveis={bairrosDisponiveis}
                 candidatosLista={candidatosLista}
                 candX={candX}
                 candY={candY}
@@ -392,6 +405,7 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
               bairroAtivo={bairroAtivo}
               onBairroChange={setBairroAtivo}
               municipiosDisponiveis={municipiosDisponiveis}
+              bairrosDisponiveis={bairrosDisponiveis}
               candidatosLista={candidatosLista}
               candX={candX}
               candY={candY}

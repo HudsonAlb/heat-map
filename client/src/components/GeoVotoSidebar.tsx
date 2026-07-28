@@ -16,6 +16,7 @@ interface GeoVotoSidebarProps {
   bairroAtivo: string;
   onBairroChange: (bairro: string) => void;
   municipiosDisponiveis: string[];
+  bairrosDisponiveis: string[];
 
   // / Parceria
   candidatosLista: Candidato[];
@@ -48,6 +49,7 @@ export const GeoVotoSidebar: React.FC<GeoVotoSidebarProps> = ({
   bairroAtivo,
   onBairroChange,
   municipiosDisponiveis,
+  bairrosDisponiveis,
   candidatosLista,
   candX,
   candY,
@@ -150,22 +152,27 @@ export const GeoVotoSidebar: React.FC<GeoVotoSidebarProps> = ({
           </select>
         </div>
 
-        {/* Bairro / Comunidade Select */}
+        {/* Bairro / Comunidade Select (Encadeado com a Cidade) */}
         <div className="filter-group">
           <label className="sidebar-label">Bairro / Comunidade:</label>
           <select
             className="sidebar-select"
             value={bairroAtivo}
+            disabled={municipioAtivo === 'Todos'}
             onChange={(e) => onBairroChange(e.target.value)}
           >
-            <option value="Todos">Todos os Bairros & Comunidades</option>
-            <option value="Boa Vista">Boa Vista (Recife)</option>
-            <option value="Boa Viagem">Boa Viagem (Recife)</option>
-            <option value="Casa Amarela">Casa Amarela (Recife)</option>
-            <option value="Carmo">Carmo (Olinda)</option>
-            <option value="Piedade">Piedade (Jaboatão)</option>
-            <option value="Maurício de Nassau">Maurício de Nassau (Caruaru)</option>
-            <option value="Centro">Centro (Petrolina)</option>
+            {municipioAtivo === 'Todos' ? (
+              <option value="Todos">⚠️ Selecione uma Cidade para filtrar Bairros</option>
+            ) : (
+              <>
+                <option value="Todos">Todos os Bairros de {municipioAtivo} ({bairrosDisponiveis.length})</option>
+                {bairrosDisponiveis.map((b) => (
+                  <option key={b} value={b}>
+                    📍 {b}
+                  </option>
+                ))}
+              </>
+            )}
           </select>
         </div>
       </div>
