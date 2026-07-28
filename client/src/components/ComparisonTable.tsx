@@ -5,12 +5,20 @@ interface ComparisonTableProps {
   territorios: TerritorioCalculado[];
   candX: Candidato;
   candY?: Candidato;
+  anoEleicao?: number;
+  camada?: string;
+  mesorregiaoAtiva?: string;
+  municipioAtivo?: string;
 }
 
 export const ComparisonTable: React.FC<ComparisonTableProps> = ({
   territorios,
   candX,
   candY,
+  anoEleicao = 2024,
+  camada = 'municipio',
+  mesorregiaoAtiva = 'Todas',
+  municipioAtivo = 'Todos',
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortField, setSortField] = useState<keyof TerritorioCalculado>('forca_dobradinha');
@@ -120,6 +128,39 @@ export const ComparisonTable: React.FC<ComparisonTableProps> = ({
 
   return (
     <div className="table-view-container">
+      {/* ── CABEÇALHO EXCLUSIVO PARA IMPRESSÃO / PDF ──────────────────────────── */}
+      <div className="print-only-report-header">
+        <div className="print-report-top">
+          <div className="print-report-brand">
+            <h2>GeoVoto — Inteligência Eleitoral</h2>
+            <p>Relatório Analítico de Desempenho e Força Territorial</p>
+          </div>
+          <div className="print-report-meta">
+            <span><strong>Data:</strong> {new Date().toLocaleDateString('pt-BR')}</span>
+            <span><strong>Eleição:</strong> {anoEleicao}</span>
+          </div>
+        </div>
+
+        <div className="print-report-summary-box">
+          <div className="print-summary-item">
+            <span className="print-label">Candidato Principal (X):</span>
+            <strong className="print-val text-cand-x">{candX.nome_urna} ({candX.partido})</strong>
+          </div>
+          {candY && (
+            <div className="print-summary-item">
+              <span className="print-label">Candidato Parceria (Y):</span>
+              <strong className="print-val text-cand-y">{candY.nome_urna} ({candY.partido})</strong>
+            </div>
+          )}
+          <div className="print-summary-item">
+            <span className="print-label">Filtro Territorial:</span>
+            <strong className="print-val">
+              {camada.toUpperCase()} — {municipioAtivo !== 'Todos' ? municipioAtivo : mesorregiaoAtiva !== 'Todas' ? mesorregiaoAtiva : 'Pernambuco (Geral)'}
+            </strong>
+          </div>
+        </div>
+      </div>
+
       {/* ── BARRA SUPERIOR DE TOOLBAR & BUSCA ─────────────────────────────── */}
       <div className="table-toolbar-card">
         <div className="table-search-group">
@@ -194,7 +235,7 @@ export const ComparisonTable: React.FC<ComparisonTableProps> = ({
               )}
               <th onClick={() => handleSort('forca_dobradinha')} className="th-sortable align-right col-soma">
                 <div className="th-content align-right">
-                  <span>{candY ? 'Total Votos & Força' : 'Total Votos'}</span>
+                  <span>{candY ? 'Força Somada' : 'Representação'}</span>
                   {sortField === 'forca_dobradinha' && <span className="sort-arrow">{sortAsc ? '▲' : '▼'}</span>}
                 </div>
               </th>
@@ -223,12 +264,13 @@ export const ComparisonTable: React.FC<ComparisonTableProps> = ({
             </tr>
           </thead>
           <tbody>
-            {paginated.length > 0 ? (
-              paginated.map((t) => {
+            {sorted.length > 0 ? (
+              sorted.map((t, idx) => {
+                const isExtraForPrint = idx >= paginated.length;
                 const pctEleitores = (t.aptos / maxAptos) * 100;
-                const totalVotosLocal = t.votos_A + (candY ? t.votos_B : 0);
+                const forcaValorPct = candY ? (t.forca_dobradinha * 100).toFixed(1) : (t.aderencia_A * 100).toFixed(1);
                 return (
-                  <tr key={t.id} className="table-data-row">
+                  <tr key={t.id} className={`table-data-row ${isExtraForPrint ? 'print-extra-row' : ''}`}>
                     <td className="cell-territorio">
                       <div className="territorio-name-box">
                         <span className="layer-badge">{t.camada === 'mesorregiao' ? '🏛️' : t.camada === 'municipio' ? '🏙️' : '📍'}</span>
@@ -250,29 +292,46 @@ export const ComparisonTable: React.FC<ComparisonTableProps> = ({
                       </div>
                     </td>
                     <td className="align-right">
-                      <div className="table-cell-metric text-cand-x">
-                        <strong className="number-font metric-val">{t.votos_A.toLocaleString('pt-BR')}</strong>
-                        <span className="metric-sub">{(t.aderencia_A * 100).toFixed(1)}% do total</span>
+                      <div className="votos-cand-cell text-cand-x">
+                        <strong className="number-font">{t.votos_A.toLocaleString('pt-BR')}</strong>
+                        <span className="pct-sub">{(t.aderencia_A * 100).toFixed(1)}% do eleitorado</span>
                       </div>
                     </td>
                     {candY && (
                       <td className="align-right">
-                        <div className="table-cell-metric text-cand-y">
-                          <strong className="number-font metric-val">{t.votos_B.toLocaleString('pt-BR')}</strong>
-                          <span className="metric-sub">{(t.aderencia_B * 100).toFixed(1)}% do total</span>
+                        <div className="votos-cand-cell text-cand-y">
+                          <strong className="number-font">{t.votos_B.toLocaleString('pt-BR')}</strong>
+                          <span className="pct-sub">{(t.aderencia_B * 100).toFixed(1)}% do eleitorado</span>
                         </div>
                       </td>
                     )}
                     <td className="align-right">
-                      <div className="table-cell-metric text-soma highlight-cell">
-                        <strong className="number-font metric-val">{totalVotosLocal.toLocaleString('pt-BR')}</strong>
-                        <span className="metric-sub font-bold">
-                          {candY ? `${(t.forca_dobradinha * 100).toFixed(1)}% (Força Somada)` : `${(t.aderencia_A * 100).toFixed(1)}% da cidade`}
-                        </span>
+                      <div className="forca-cell">
+                        <strong className="number-font text-soma font-lg">
+                          {forcaValorPct}%
+                        </strong>
+                        <div className="forca-mini-track">
+                          <div
+                            className="forca-mini-fill"
+                            style={{ width: `${Math.min(Number(forcaValorPct) * 2, 100)}%` }}
+                          ></div>
+                        </div>
                       </div>
                     </td>
-                    {candY && <td className="align-right number-font">{(t.sobreposicao * 100).toFixed(1)}%</td>}
-                    {candY && <td className="align-right number-font font-bold">{(t.complementaridade * 100).toFixed(1)}%</td>}
+                    {candY && (
+                      <td className="align-right">
+                        <div className="votos-cand-cell">
+                          <span className="number-font font-bold">{(t.sobreposicao * 100).toFixed(1)}%</span>
+                        </div>
+                      </td>
+                    )}
+                    {candY && (
+                      <td className="align-right">
+                        <div className="votos-cand-cell">
+                          <span className="number-font font-bold text-soma">{(t.complementaridade * 100).toFixed(1)}%</span>
+                        </div>
+                      </td>
+                    )}
                     <td className="align-center">{getStatusBadge(t.classificacao)}</td>
                   </tr>
                 );

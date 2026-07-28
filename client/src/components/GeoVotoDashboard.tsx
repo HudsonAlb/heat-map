@@ -498,6 +498,10 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
                   territorios={territoriosOrdenados}
                   candX={candX}
                   candY={candY || candX}
+                  anoEleicao={anoEleicao}
+                  camada={camadaAtiva}
+                  mesorregiaoAtiva={mesorregiaoAtiva}
+                  municipioAtivo={municipioAtivo}
                 />
               )}
 
