@@ -194,7 +194,7 @@ export const ComparisonTable: React.FC<ComparisonTableProps> = ({
               )}
               <th onClick={() => handleSort('forca_dobradinha')} className="th-sortable align-right col-soma">
                 <div className="th-content align-right">
-                  <span>{candY ? 'Votação / Força Somada' : 'Total Votos'}</span>
+                  <span>{candY ? 'Total Votos & Força' : 'Total Votos'}</span>
                   {sortField === 'forca_dobradinha' && <span className="sort-arrow">{sortAsc ? '▲' : '▼'}</span>}
                 </div>
               </th>
@@ -226,6 +226,7 @@ export const ComparisonTable: React.FC<ComparisonTableProps> = ({
             {paginated.length > 0 ? (
               paginated.map((t) => {
                 const pctEleitores = (t.aptos / maxAptos) * 100;
+                const totalVotosLocal = t.votos_A + (candY ? t.votos_B : 0);
                 return (
                   <tr key={t.id} className="table-data-row">
                     <td className="cell-territorio">
@@ -249,26 +250,24 @@ export const ComparisonTable: React.FC<ComparisonTableProps> = ({
                       </div>
                     </td>
                     <td className="align-right">
-                      <div className="votos-cand-cell text-cand-x">
-                        <strong className="number-font">{t.votos_A.toLocaleString('pt-BR')}</strong>
-                        <span className="pct-sub">{(t.aderencia_A * 100).toFixed(1)}% dos votos</span>
+                      <div className="table-cell-metric text-cand-x">
+                        <strong className="number-font metric-val">{t.votos_A.toLocaleString('pt-BR')}</strong>
+                        <span className="metric-sub">{(t.aderencia_A * 100).toFixed(1)}% do total</span>
                       </div>
                     </td>
                     {candY && (
                       <td className="align-right">
-                        <div className="votos-cand-cell text-cand-y">
-                          <strong className="number-font">{t.votos_B.toLocaleString('pt-BR')}</strong>
-                          <span className="pct-sub">{(t.aderencia_B * 100).toFixed(1)}% dos votos</span>
+                        <div className="table-cell-metric text-cand-y">
+                          <strong className="number-font metric-val">{t.votos_B.toLocaleString('pt-BR')}</strong>
+                          <span className="metric-sub">{(t.aderencia_B * 100).toFixed(1)}% do total</span>
                         </div>
                       </td>
                     )}
                     <td className="align-right">
-                      <div className="forca-cell">
-                        <strong className="number-font text-soma font-lg">
-                          {(t.votos_A + (candY ? t.votos_B : 0)).toLocaleString('pt-BR')} votos
-                        </strong>
-                        <span className="pct-sub text-soma font-bold">
-                          {candY ? `Força: ${(t.forca_dobradinha * 100).toFixed(1)}%` : `Representação: ${(t.aderencia_A * 100).toFixed(1)}%`}
+                      <div className="table-cell-metric text-soma highlight-cell">
+                        <strong className="number-font metric-val">{totalVotosLocal.toLocaleString('pt-BR')}</strong>
+                        <span className="metric-sub font-bold">
+                          {candY ? `${(t.forca_dobradinha * 100).toFixed(1)}% (Força Somada)` : `${(t.aderencia_A * 100).toFixed(1)}% da cidade`}
                         </span>
                       </div>
                     </td>

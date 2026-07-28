@@ -1137,10 +1137,33 @@ body {
   font-size: 12px;
   font-weight: 600;
   color: var(--color-text-secondary);
-  padding: 4px 10px;
-  background: var(--color-bg-tertiary);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+/* ─── Estilos de Células Métricas da Tabela Comparativa ────────────────────── */
+.table-cell-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 2px;
+}
+
+.table-cell-metric .metric-val {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.table-cell-metric .metric-sub {
+  font-size: 11px;
+  font-weight: 500;
+  opacity: 0.85;
+  white-space: nowrap;
+}
+
+.table-cell-metric.highlight-cell {
+  background: rgba(9, 65, 220, 0.08);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(9, 65, 220, 0.2);
 }
 
 /* ─── Sidebar Estruturada ─────────────────────────────────────────────────── */
