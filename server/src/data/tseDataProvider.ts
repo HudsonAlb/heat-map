@@ -12,6 +12,7 @@ import { UnidadeBruta } from '../engine/dobradinhaCalculator';
 import { CamadaGeografica } from '../types';
 import { CANDIDATOS_OFICIAIS } from './realDataStore';
 import { MUNICIPIOS_PE_GEO, MunicipioGeo } from './municipiosGeoMap';
+import { REAL_TSE_DATA_2024, REAL_TSE_DATA_2022 } from './tseRealSeedData';
 
 interface DetalheVotoTse {
   municipio: string;
@@ -203,7 +204,20 @@ function carregarCacheMunicipioVotos(ano: number): Map<number, DetalheVotoTse[]>
 
   const csvPath = path.join(__dirname, `../../data_tse/${ano}/votacao_secao_${ano}_PE.csv`);
   if (!fs.existsSync(csvPath)) {
-    console.warn(`⚠️ Arquivo do TSE não encontrado em: ${csvPath}`);
+    console.log(`📦 Carregando dataset oficial dos candidatos (${ano}) via módulo TS...`);
+    const seed = ano === 2024 ? REAL_TSE_DATA_2024 : REAL_TSE_DATA_2022;
+    for (const record of seed) {
+      municipiosSet.add(record.municipio);
+      let list = map.get(record.nr_votavel);
+      if (!list) {
+        list = [];
+        map.set(record.nr_votavel, list);
+      }
+      list.push(record);
+    }
+    if (ano === 2024) cacheMunicipios2024 = municipiosSet;
+    else cacheMunicipios2022 = municipiosSet;
+    console.log(`✅ TSE ${ano} (Dados embutidos): ${map.size} candidatos carregados de ${municipiosSet.size} municípios em ${((Date.now() - start) / 1000).toFixed(1)}s`);
     return map;
   }
 
