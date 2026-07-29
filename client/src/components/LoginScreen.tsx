@@ -11,8 +11,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
   usuariosDisponiveis,
   onLoginSucesso,
 }) => {
-  const [email, setEmail] = useState('ster.vilela@campanha.com.br');
-  const [senha, setSenha] = useState('stervilela2026');
+  const [email, setEmail] = useState('ste.vilela@campanha.com.br');
+  const [senha, setSenha] = useState('stevilela2026');
   const [erro, setErro] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {

@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Build output
+client/dist/
+server/dist/
+
+# TSE raw data (too large for Vercel/GitHub)
+server/data_tse/*.zip
+server/data_tse/**/*.csv
+server/data_tse/**/*.pdf
+server/data_tse/
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/

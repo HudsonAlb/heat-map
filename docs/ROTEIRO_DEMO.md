@@ -6,14 +6,14 @@
 
 - 🌐 Abrir o app no navegador
 - 🏷️ A tela mostra a logo oficial do GeoVoto
-- ✉️ O email já vem preenchido, só clicar em **"Acessar Plataforma GeoVoto"**
-- 👩‍💼 Você entra como **Ster Vilela** (pré-candidata a Dep. Estadual)
+- ✉️ O email já vem preenchido (`ste.vilela@campanha.com.br`), só clicar em **"Acessar Plataforma GeoVoto"**
+- 👩‍💼 Você entra como **Ste Vilela** (pré-candidata a Dep. Estadual)
 
 ---
 
 ## 2️⃣ Visão Geral do Mapa
 
-- 🔥 O mapa já abre mostrando o calor dos votos da Ster no Recife
+- 🔥 O mapa já abre mostrando o calor dos votos da Ste no Recife
 - ✅ Todos os dados são **100% reais do TSE**, nada simulado
 - 🏷️ No topo tem a logo oficial e seu nome/foto
 
@@ -93,7 +93,7 @@
 |---|---------|--------|
 | 1 | 🏷️ Login com branding oficial | ✅ |
 | 2 | 🔥 Mapa de calor com dados 100% TSE | ✅ |
-| 3 | 👥 3 candidatos: Ster, João, Pedro | ✅ |
+| 3 | 👥 3 candidatos: Ste, João, Pedro | ✅ |
 | 4 | 🔎 Filtros: Meso → Mun → Bairro → Seção | ✅ |
 | 5 | 🤝 Comparação de dobradinhas com breakdown | ✅ |
 | 6 | 🗳️ Histórico 2024 / 2022 / Ambas | ✅ |

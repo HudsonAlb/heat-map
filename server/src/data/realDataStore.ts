@@ -53,11 +53,11 @@ export const CANDIDATOS_OFICIAIS: Candidato[] = [
     eleicao_id: 2,
     situacao: 'ELEITO'
   },
-  // Ster Vilela - Vereadora de Recife (2024)
+  // Ste Vilela - Vereadora de Recife (2024)
   {
     id: 139,
     sq_candidato_tse: 260002024139,
-    nome_urna: 'STER VILELA',
+    nome_urna: 'STE VILELA',
     nome_completo: 'STERPHANIE VILELA',
     partido: 'PSB',
     numero: 40180,

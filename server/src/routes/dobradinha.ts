@@ -13,7 +13,7 @@ const router = Router();
 const dobradinhasSalvas: DobradinhaSalva[] = [
   {
     id: 1,
-    nome: 'Parceria Frente Popular (João Campos + Ster Vilela)',
+    nome: 'Parceria Frente Popular (João Campos + Ste Vilela)',
     candidato_a_id: 201,
     candidato_b_id: 139,
     eleicao_referencia_id: 1,
@@ -22,7 +22,7 @@ const dobradinhasSalvas: DobradinhaSalva[] = [
   },
   {
     id: 2,
-    nome: 'Dobradinha Federal/Municipal (Pedro Campos + Ster Vilela)',
+    nome: 'Dobradinha Federal/Municipal (Pedro Campos + Ste Vilela)',
     candidato_a_id: 101,
     candidato_b_id: 139,
     eleicao_referencia_id: 1,

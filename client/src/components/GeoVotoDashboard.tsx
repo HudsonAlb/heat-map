@@ -24,14 +24,16 @@ import { ChatbotDrawer } from './ChatbotDrawer';
 import { ChatbotFab } from './ChatbotFab';
 import { FooterBar } from './FooterBar';
 
+import steVilelaPhoto from '../assets/stevilela.jpg';
+
 const USUARIOS_DEMO: UsuarioRBAC[] = [
   {
     id: 139,
-    nome: 'Ster Vilela',
-    email: 'ster.vilela@campanha.com.br',
+    nome: 'Ste Vilela',
+    email: 'ste.vilela@campanha.com.br',
     papel: 'candidato',
     candidato_id_padrao: 139,
-    foto_url: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200&h=200',
+    foto_url: steVilelaPhoto,
     escopo_geografico: { uf: 'PE' },
   },
   {
@@ -127,7 +129,7 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
           if (list.length > 0) {
             setCandidatosLista(list);
 
-            // Se o usuário logado tem um perfil de candidato específico (ex: Ster Vilela ID 139)
+            // Se o usuário logado tem um perfil de candidato específico (ex: Ste Vilela ID 139)
             if (usuarioAtual?.candidato_id_padrao) {
               const perfilCand = list.find((c) => c.id === usuarioAtual.candidato_id_padrao);
               if (perfilCand) {

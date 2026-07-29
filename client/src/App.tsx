@@ -2,16 +2,17 @@ import { useState } from 'react';
 import { LoginScreen } from './components/LoginScreen';
 import { GeoVotoDashboard } from './components/GeoVotoDashboard';
 import type { UsuarioRBAC } from './types/geovoto';
+import steVilelaPhoto from './assets/stevilela.jpg';
 import './App.css';
 
 const USUARIOS_DEMO: UsuarioRBAC[] = [
   {
     id: 139,
-    nome: 'Ster Vilela',
-    email: 'ster.vilela@campanha.com.br',
+    nome: 'Ste Vilela',
+    email: 'ste.vilela@campanha.com.br',
     papel: 'candidato',
     candidato_id_padrao: 139,
-    foto_url: '/ster_vilela.png',
+    foto_url: steVilelaPhoto,
     escopo_geografico: { uf: 'PE' },
   },
   {
