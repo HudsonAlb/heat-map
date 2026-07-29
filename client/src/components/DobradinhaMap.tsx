@@ -51,20 +51,28 @@ export const DobradinhaMap: React.FC<DobradinhaMapProps> = ({
 
   const mapRef = useRef<MapRef>(null);
 
-  // Converte o array de territórios em FeatureCollection GeoJSON com pesos calibrados
+  // Converte o array de territórios em FeatureCollection GeoJSON omitindo territórios com 0 votos no modo ativo
   const geojsonData = useMemo(() => {
-    return {
-      type: 'FeatureCollection' as const,
-      features: territorios.map((t) => {
-        // Peso calibrado com curva progressiva para garantir manchas nítidas e brilhantes
-        let rawVal = t.forca_dobradinha;
-        if (modo === 'isolado_x') rawVal = t.aderencia_A;
-        if (modo === 'isolado_y') rawVal = t.aderencia_B;
-        if (modo === 'sobreposicao') rawVal = t.sobreposicao;
-        if (modo === 'diferencial') rawVal = Math.abs(t.aderencia_A - t.aderencia_B);
+    const features = territorios
+      .map((t) => {
+        let valorVotos = t.votos_A + t.votos_B;
 
-        // Calibração de peso de 0.3 a 1.0 para criar um gradiente de mancha continuo e denso
-        const weight = Math.min(Math.max(rawVal * 2.8, 0.3), 1.0);
+        if (modo === 'isolado_x') {
+          valorVotos = t.votos_A;
+        } else if (modo === 'isolado_y') {
+          valorVotos = t.votos_B;
+        } else if (modo === 'sobreposicao') {
+          valorVotos = Math.min(t.votos_A, t.votos_B);
+        } else if (modo === 'diferencial') {
+          valorVotos = Math.abs(t.votos_A - t.votos_B);
+        }
+
+        // Se não houver votos no modo ativo, descarta totalmente a feature do heatmap
+        if (valorVotos <= 0) return null;
+
+        // Proporção direta do volume real de votos para o peso térmico (mínimo 0.35 para nitidez vibrante)
+        const maxVotos = Math.max(...territorios.map((item) => item.votos_A + item.votos_B), 1);
+        const weight = Math.min(Math.max((valorVotos / maxVotos) * 2.2, 0.35), 1.0);
 
         // Cor do indicador para o modo diferencial
         const ehDominoX = t.aderencia_A >= t.aderencia_B;
@@ -88,7 +96,12 @@ export const DobradinhaMap: React.FC<DobradinhaMapProps> = ({
             territorioRaw: JSON.stringify(t),
           },
         };
-      }),
+      })
+      .filter((f): f is NonNullable<typeof f> => f !== null);
+
+    return {
+      type: 'FeatureCollection' as const,
+      features,
     };
   }, [territorios, modo]);
 
@@ -99,11 +112,11 @@ export const DobradinhaMap: React.FC<DobradinhaMapProps> = ({
       ['linear'],
       ['heatmap-density'],
       0, 'rgba(3, 3, 17, 0)',
-      0.15, 'rgba(9, 65, 220, 0.65)',  // Azul Indigo Berlim
-      0.35, '#06b6d4',                // Ciano Elétrico
-      0.55, '#10b981',                // Verde Esmeralda
-      0.75, '#facc15',                // Amarelo Néon
-      0.90, '#f97316',                // Laranja Fogo
+      0.10, 'rgba(9, 65, 220, 0.75)',  // Azul Indigo
+      0.30, '#06b6d4',                // Ciano Elétrico
+      0.50, '#10b981',                // Verde Esmeralda
+      0.70, '#facc15',                // Amarelo Néon
+      0.85, '#f97316',                // Laranja Fogo
       1.0,  '#ef4444',                // Vermelho Rubi Intenso
     ];
   }, []);
@@ -114,10 +127,10 @@ export const DobradinhaMap: React.FC<DobradinhaMapProps> = ({
     type: 'heatmap',
     paint: {
       'heatmap-weight': ['get', 'weight'],
-      'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 4, 1.8, 8, 3.5, 12, 6.0],
+      'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 4, 2.5, 8, 5.0, 12, 8.0],
       'heatmap-color': heatmapColorRamp as any,
-      'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 4, 25, 7, 45, 10, 75, 14, 110],
-      'heatmap-opacity': 0.88,
+      'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 4, 35, 7, 65, 10, 95, 14, 130],
+      'heatmap-opacity': 0.92,
     },
   };
 
@@ -154,6 +167,9 @@ export const DobradinhaMap: React.FC<DobradinhaMapProps> = ({
       if (features && features.length > 0 && features[0].properties?.territorioRaw) {
         const t = JSON.parse(features[0].properties.territorioRaw) as TerritorioCalculado;
         setSelectedTerritorio(t);
+        if (onDrillDown) {
+          onDrillDown(t);
+        }
       } else {
         setSelectedTerritorio(null);
       }

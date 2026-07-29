@@ -19,6 +19,7 @@ export interface UnidadeBruta {
   cod_municipio_tse?: number;
   nome_municipio?: string;
   bairro?: string;
+  localName?: string;
   latitude?: number;
   longitude?: number;
   geometria_aproximada?: boolean;
@@ -87,6 +88,7 @@ export function calcularEstatisticasDobradinha(
       cod_municipio_tse: u.cod_municipio_tse,
       nome_municipio: u.nome_municipio,
       bairro: u.bairro,
+      localName: u.localName,
       latitude: u.latitude,
       longitude: u.longitude,
       geometria_aproximada: u.geometria_aproximada ?? false,

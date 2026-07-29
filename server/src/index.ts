@@ -10,9 +10,9 @@ import cors from 'cors';
 import path from 'path';
 import fs from 'fs';
 
+import { candidatosRouter } from './collectionsEleitoral/candidatos';
+import { comparacaoRouter } from './collectionsEleitoral/dobradinhas';
 import eleitorRoutes from './routes/eleitores';
-import candidatoRoutes from './routes/candidatos';
-import comparacaoRoutes from './routes/comparacao';
 import dobradinhaRoutes from './routes/dobradinha';
 import chatbotRoutes from './routes/chatbot';
 import revopsRoutes from './routes/revops';
@@ -37,10 +37,10 @@ app.use(express.json());
 app.use(middlewareAnexarUsuario as express.RequestHandler);
 app.use(aplicarEscopoGeografico as express.RequestHandler);
 
-// ─── Rotas da API GeoVoto & B DASH ────────────────────────────────────────────
+// ─── Rotas da API GeoVoto & B DASH (Estrutura Arquitetural Innovats) ─────────
 app.use('/api/eleitores', eleitorRoutes);
-app.use('/api/candidatos', candidatoRoutes);
-app.use('/api/comparacao', comparacaoRoutes);
+app.use('/api/candidatos', candidatosRouter);
+app.use('/api/comparacao', comparacaoRouter);
 app.use('/api/dobradinhas', dobradinhaRoutes);
 app.use('/api/chatbot', chatbotRoutes);
 app.use('/api/revops', revopsRoutes);

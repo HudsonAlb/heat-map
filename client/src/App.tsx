@@ -6,25 +6,38 @@ import './App.css';
 
 const USUARIOS_DEMO: UsuarioRBAC[] = [
   {
+    id: 139,
+    nome: 'Ster Vilela',
+    email: 'ster.vilela@campanha.com.br',
+    papel: 'candidato',
+    candidato_id_padrao: 139,
+    foto_url: '/ster_vilela.png',
+    escopo_geografico: { uf: 'PE' },
+  },
+  {
+    id: 101,
+    nome: 'Pedro Campos',
+    email: 'pedro.campos@campanha.com.br',
+    papel: 'candidato',
+    candidato_id_padrao: 101,
+    foto_url: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=200&h=200',
+    escopo_geografico: { uf: 'PE' },
+  },
+  {
+    id: 201,
+    nome: 'João Campos',
+    email: 'joao.campos@campanha.com.br',
+    papel: 'candidato',
+    candidato_id_padrao: 201,
+    foto_url: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=200&h=200',
+    escopo_geografico: { uf: 'PE' },
+  },
+  {
     id: 1,
     nome: 'Carlos Eduardo',
     email: 'carlos@campanha.com.br',
     papel: 'responsavel_campanha',
     escopo_geografico: { uf: 'PE' },
-  },
-  {
-    id: 2,
-    nome: 'Mariana Silva',
-    email: 'mariana.rmr@campanha.com.br',
-    papel: 'coordenador_regional',
-    escopo_geografico: { uf: 'PE', mesorregioes: ['RMR'] },
-  },
-  {
-    id: 3,
-    nome: 'João Pedro',
-    email: 'joao.agreste@campanha.com.br',
-    papel: 'coordenador_regional',
-    escopo_geografico: { uf: 'PE', mesorregioes: ['Agreste'] },
   },
 ];
 

@@ -31,17 +31,21 @@ export const CandidateSelectorBar: React.FC<CandidateSelectorBarProps> = ({
   const [showDropdownX, setShowDropdownX] = useState(false);
   const [showDropdownY, setShowDropdownY] = useState(false);
 
-  const filteredX = candidatosLista.filter((c) =>
-    c.nome_urna.toLowerCase().includes(searchX.toLowerCase()) ||
-    c.partido.toLowerCase().includes(searchX.toLowerCase()) ||
-    String(c.numero).includes(searchX)
-  );
+  const filteredX = candidatosLista
+    .filter((c) =>
+      c.nome_urna.toLowerCase().includes(searchX.toLowerCase()) ||
+      c.partido.toLowerCase().includes(searchX.toLowerCase()) ||
+      String(c.numero).includes(searchX)
+    )
+    .sort((a, b) => a.nome_urna.localeCompare(b.nome_urna, 'pt-BR'));
 
-  const filteredY = candidatosLista.filter((c) =>
-    c.nome_urna.toLowerCase().includes(searchY.toLowerCase()) ||
-    c.partido.toLowerCase().includes(searchY.toLowerCase()) ||
-    String(c.numero).includes(searchY)
-  );
+  const filteredY = candidatosLista
+    .filter((c) =>
+      c.nome_urna.toLowerCase().includes(searchY.toLowerCase()) ||
+      c.partido.toLowerCase().includes(searchY.toLowerCase()) ||
+      String(c.numero).includes(searchY)
+    )
+    .sort((a, b) => a.nome_urna.localeCompare(b.nome_urna, 'pt-BR'));
 
   return (
     <div className="selector-bar-container">

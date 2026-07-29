@@ -35,6 +35,8 @@ interface GeoVotoSidebarProps {
   totalEleitoresFiltrados: number;
   totalSecoes: number;
   totalVotosParceria: number;
+  totalVotosX?: number;
+  totalVotosY?: number;
 }
 
 export const GeoVotoSidebar: React.FC<GeoVotoSidebarProps> = ({
@@ -62,7 +64,16 @@ export const GeoVotoSidebar: React.FC<GeoVotoSidebarProps> = ({
   totalEleitoresFiltrados,
   totalSecoes,
   totalVotosParceria,
+  totalVotosX,
+  totalVotosY,
 }) => {
+  // Ordenação Alfabética da Lista de Candidatos pelo Nome de Urna
+  const candidatosOrdenados = React.useMemo(() => {
+    return [...candidatosLista].sort((a, b) =>
+      a.nome_urna.localeCompare(b.nome_urna, 'pt-BR')
+    );
+  }, [candidatosLista]);
+
   return (
     <aside className="geovoto-sidebar-panel">
       {/* ── 1. FILTRO DE BUSCA ───────────────────────────────────────────── */}
@@ -101,7 +112,7 @@ export const GeoVotoSidebar: React.FC<GeoVotoSidebarProps> = ({
               className={`camada-pill-btn ${camadaAtiva === 'municipio' ? 'active' : ''}`}
               onClick={() => onCamadaChange('municipio')}
             >
-              Cidade
+              Município
             </button>
             <button
               className={`camada-pill-btn ${camadaAtiva === 'bairro' ? 'active' : ''}`}
@@ -109,12 +120,18 @@ export const GeoVotoSidebar: React.FC<GeoVotoSidebarProps> = ({
             >
               Bairro
             </button>
+            <button
+              className={`camada-pill-btn ${camadaAtiva === 'secao' ? 'active' : ''}`}
+              onClick={() => onCamadaChange('secao')}
+            >
+              Seção
+            </button>
           </div>
         </div>
 
         {/* Mesorregião Select */}
         <div className="filter-group">
-          <label className="sidebar-label">Mesorregião:</label>
+          <label className="sidebar-label">Mesorregião PE:</label>
           <select
             className="sidebar-select"
             value={mesorregiaoAtiva}
@@ -124,17 +141,17 @@ export const GeoVotoSidebar: React.FC<GeoVotoSidebarProps> = ({
               onBairroChange('Todos');
             }}
           >
-            <option value="Todas">Todas as Mesorregiões</option>
-            <option value="RMR">RMR (Região Metropolitana do Recife)</option>
+            <option value="Todas">Todas as Mesorregiões (PE)</option>
+            <option value="RMR">Região Metropolitana do Recife (RMR)</option>
             <option value="Zona da Mata">Zona da Mata</option>
-            <option value="Agreste">Agreste</option>
-            <option value="Sertão">Sertão</option>
+            <option value="Agreste">Agreste Pernambucano</option>
+            <option value="Sertão">Sertão Pernambucano</option>
           </select>
         </div>
 
         {/* Cidade / Município Select */}
         <div className="filter-group">
-          <label className="sidebar-label">Cidade / Município:</label>
+          <label className="sidebar-label">Município:</label>
           <select
             className="sidebar-select"
             value={municipioAtivo}
@@ -143,7 +160,7 @@ export const GeoVotoSidebar: React.FC<GeoVotoSidebarProps> = ({
               onBairroChange('Todos');
             }}
           >
-            <option value="Todos">Todas as Cidades ({municipiosDisponiveis.length})</option>
+            <option value="Todos">Todos os Municípios ({municipiosDisponiveis.length})</option>
             {municipiosDisponiveis.map((m) => (
               <option key={m} value={m}>
                 {m}
@@ -190,11 +207,11 @@ export const GeoVotoSidebar: React.FC<GeoVotoSidebarProps> = ({
             className="sidebar-select"
             value={candX.id}
             onChange={(e) => {
-              const selected = candidatosLista.find((c) => c.id === Number(e.target.value));
+              const selected = candidatosOrdenados.find((c) => c.id === Number(e.target.value));
               if (selected) onCandXChange(selected);
             }}
           >
-            {candidatosLista.map((c) => (
+            {candidatosOrdenados.map((c) => (
               <option key={c.id} value={c.id}>
                 {c.nome_urna} ({c.partido} - {c.numero})
               </option>
@@ -212,13 +229,13 @@ export const GeoVotoSidebar: React.FC<GeoVotoSidebarProps> = ({
               const val = e.target.value;
               if (!val) onCandYChange(undefined);
               else {
-                const selected = candidatosLista.find((c) => c.id === Number(val));
+                const selected = candidatosOrdenados.find((c) => c.id === Number(val));
                 onCandYChange(selected);
               }
             }}
           >
             <option value="">Nenhum (Visualização Isolada)</option>
-            {candidatosLista
+            {candidatosOrdenados
               .filter((c) => c.id !== candX.id)
               .map((c) => (
                 <option key={c.id} value={c.id}>
@@ -271,6 +288,12 @@ export const GeoVotoSidebar: React.FC<GeoVotoSidebarProps> = ({
         </h3>
         <div className="history-toggle-buttons">
           <button
+            className={`history-btn ${anoEleicao === 0 ? 'active' : ''}`}
+            onClick={() => onAnoEleicaoChange(0)}
+          >
+            📊 Ambas as Eleições (Consolidado)
+          </button>
+          <button
             className={`history-btn ${anoEleicao === 2024 ? 'active' : ''}`}
             onClick={() => onAnoEleicaoChange(2024)}
           >
@@ -306,6 +329,20 @@ export const GeoVotoSidebar: React.FC<GeoVotoSidebarProps> = ({
             </span>
             <strong className="resumo-val val-soma">{totalVotosParceria.toLocaleString('pt-BR')}</strong>
           </div>
+
+          {/* Soma detalhada ao combinar candidatos */}
+          {candY && modoAtivo !== 'isolado_x' && modoAtivo !== 'isolado_y' && (
+            <div className="resumo-breakdown-container">
+              <div className="resumo-metric-item sub-item">
+                <span className="resumo-lbl-sub">↳ {candX.nome_urna}:</span>
+                <strong className="resumo-val-sub val-cand-x">{(totalVotosX || 0).toLocaleString('pt-BR')}</strong>
+              </div>
+              <div className="resumo-metric-item sub-item">
+                <span className="resumo-lbl-sub">↳ {candY.nome_urna}:</span>
+                <strong className="resumo-val-sub val-cand-y">{(totalVotosY || 0).toLocaleString('pt-BR')}</strong>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </aside>

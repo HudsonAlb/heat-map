@@ -1,5 +1,6 @@
 import React from 'react';
 import type { ResultadoComparacao, Candidato } from '../types/geovoto';
+import geovotoSimbolo from '../assets/GeoVoto - Simbolo.svg';
 
 interface MetricsPanelProps {
   resultado: ResultadoComparacao;
@@ -70,7 +71,9 @@ export const MetricsPanel: React.FC<MetricsPanelProps> = ({
         )}
 
         <div className="kpi-card card-soma">
-          <div className="kpi-icon-box icon-soma">🔥</div>
+          <div className="kpi-icon-box icon-soma">
+            <img src={geovotoSimbolo} alt="Símbolo" className="kpi-logo-simbolo" />
+          </div>
           <div className="kpi-content">
             <span className="kpi-title">Votos Parceria Total</span>
             <strong className="kpi-value text-soma">{resumoGeral.totalVotosDobradinha.toLocaleString('pt-BR')}</strong>

@@ -34,6 +34,7 @@ export interface Candidato {
   cargo: 'DEPUTADO ESTADUAL' | 'DEPUTADO FEDERAL' | 'GOVERNADOR' | 'SENADOR' | 'PREFEITO' | 'VICE-PREFEITO' | 'VEREADOR';
   eleicao_id: number;
   situacao: string;
+  municipio?: string;
   criado_em?: string;
 }
 

@@ -1,18 +1,15 @@
 import React from 'react';
 import type { UsuarioRBAC } from '../types/geovoto';
+import geovotoLogotipo from '../assets/Geovoto - logotipo.svg';
 
 interface HeaderBarProps {
   usuarioAtual: UsuarioRBAC;
-  usuariosDisponiveis: UsuarioRBAC[];
-  onTrocarUsuario: (user: UsuarioRBAC) => void;
   onLogout: () => void;
   lastUpdateTimestamp: string;
 }
 
 export const HeaderBar: React.FC<HeaderBarProps> = ({
   usuarioAtual,
-  usuariosDisponiveis,
-  onTrocarUsuario,
   onLogout,
   lastUpdateTimestamp,
 }) => {
@@ -20,19 +17,13 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
     <header className="geovoto-header">
       {/* Brand Logo GEOVOTO & Slogan */}
       <div className="header-brand-container">
-        <div className="header-logo-badge">
-          <span className="logo-icon">🗺️</span>
-          <div className="logo-text">
-            <h1 className="brand-title">GEOVOTO</h1>
-            <span className="brand-sub">Berlim Co.</span>
-          </div>
-        </div>
+        <img src={geovotoLogotipo} alt="GeoVoto" className="header-logo-img" />
         <div className="header-slogan">
           <span>"Dados que revelam intenções. Decisões que transformam."</span>
         </div>
       </div>
 
-      {/* Right Controls: Timestamp, RBAC Selector & Action Buttons */}
+      {/* Right Controls: Timestamp & Action Buttons */}
       <div className="header-controls">
         {/* Timestamp de Atualização Diária */}
         <div className="live-timestamp-badge" title="Atualização diária via pipeline ETL TSE/IBGE">
@@ -41,24 +32,18 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
           <strong className="timestamp-value">{lastUpdateTimestamp}</strong>
         </div>
 
-        {/* Seletor de Papel RBAC */}
-        <div className="rbac-selector">
-          <select
-            className="rbac-select"
-            value={usuarioAtual.email}
-            onChange={(e) => {
-              const u = usuariosDisponiveis.find((x) => x.email === e.target.value);
-              if (u) onTrocarUsuario(u);
-            }}
-          >
-            {usuariosDisponiveis.map((u) => (
-              <option key={u.email} value={u.email}>
-                {u.nome} ({u.papel.replace('_', ' ').toUpperCase()})
-              </option>
-            ))}
-          </select>
+        {/* Espaço de Perfil do Usuário */}
+        <div className="header-user-profile">
+          <img
+            src={usuarioAtual.foto_url || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=100&h=100'}
+            alt={usuarioAtual.nome}
+            className="header-profile-avatar"
+          />
+          <div className="header-profile-info">
+            <span className="header-profile-name">{usuarioAtual.nome}</span>
+            <span className="header-profile-role">{usuarioAtual.papel.replace('_', ' ').toUpperCase()}</span>
+          </div>
         </div>
-
 
         {/* Botão Logout */}
         <button

@@ -8,8 +8,9 @@ export interface Candidato {
   nome_completo?: string;
   numero: number;
   partido: string;
-  cargo: 'deputado_estadual' | 'deputado_federal' | 'prefeito';
+  cargo: string;
   foto_url?: string;
+  municipio?: string;
 }
 
 export interface SecaoEleitoral {
@@ -40,6 +41,7 @@ export interface TerritorioCalculado {
   camada: CamadaGeografica;
   mesorregiao: string;
   bairro?: string;
+  localName?: string;
   latitude?: number;
   longitude?: number;
   geometria_aproximada: boolean;
@@ -56,6 +58,7 @@ export interface TerritorioCalculado {
 
 export interface ResultadoComparacao {
   territorios: TerritorioCalculado[];
+  bairrosDisponiveis?: string[];
   resumoGeral: {
     totalEleitores: number;
     totalSecoes: number;
@@ -112,6 +115,8 @@ export interface UsuarioRBAC {
   nome: string;
   email: string;
   papel: string;
+  candidato_id_padrao?: number;
+  foto_url?: string;
   escopo_geografico: {
     uf: string;
     mesorregioes?: string[];
@@ -151,3 +156,11 @@ export interface ChatMessage {
   };
   deepLink?: ChatbotResponse['deep_link'];
 }
+
+export type ModoOrdenacaoDados =
+  | 'forca'
+  | 'aptos'
+  | 'votos_a'
+  | 'votos_b'
+  | 'alfabetica';
+

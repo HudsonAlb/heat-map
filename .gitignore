@@ -1,29 +1,20 @@
 # Dependencies
 node_modules/
+client/node_modules/
+server/node_modules/
 
 # Build output
-dist/
-build/
+client/dist/
+server/dist/
+
+# TSE raw data (too large for GitHub)
+server/data_tse/*.zip
+server/data_tse/**/*.csv
+server/data_tse/**/*.pdf
 
 # Environment
 .env
 .env.local
-.env.*.local
 
 # IDE
 .vscode/
-.idea/
-*.swp
-*.swo
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Logs
-*.log
-npm-debug.log*
-
-# TypeScript cache
-*.tsbuildinfo
-.vercel

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { UsuarioRBAC } from '../types/geovoto';
+import geovotoFull from '../assets/GeoVoto - Full.svg';
 
 interface LoginScreenProps {
   usuariosDisponiveis: UsuarioRBAC[];
@@ -10,8 +11,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
   usuariosDisponiveis,
   onLoginSucesso,
 }) => {
-  const [email, setEmail] = useState(usuariosDisponiveis[0]?.email || 'carlos@campanha.com.br');
-  const [senha, setSenha] = useState('berlim2026');
+  const [email, setEmail] = useState('ster.vilela@campanha.com.br');
+  const [senha, setSenha] = useState('stervilela2026');
   const [erro, setErro] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -41,12 +42,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       <div className="login-card-glass">
         {/* LOGO BERLIM CO & PLATAFORMAS */}
         <div className="login-brand-header">
-          <div className="login-logo-mark">
-            <span className="logo-icon">🗺️</span>
-          </div>
-          <h1 className="login-brand-title">GEOVOTO</h1>
+          <img src={geovotoFull} alt="GeoVoto Logo" className="login-full-logo" />
           <span className="login-brand-sub">Berlim Co. Intelligence</span>
-          <p className="login-slogan">"Inteligência Eleitoral Geográfica — Dados que transformam"</p>
         </div>
 
         {/* FORMULÁRIO DE LOGIN */}
@@ -55,18 +52,15 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
 
           <div className="login-form-group">
             <label htmlFor="login-email">Acesso de Perfil / E-mail:</label>
-            <select
+            <input
               id="login-email"
-              className="login-input-select"
+              type="email"
+              className="login-input-field"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-            >
-              {usuariosDisponiveis.map((u) => (
-                <option key={u.email} value={u.email}>
-                  {u.nome} — {u.papel.replace('_', ' ').toUpperCase()} ({u.escopo_geografico.mesorregioes?.[0] || 'PE Completo'})
-                </option>
-              ))}
-            </select>
+              placeholder="exemplo@campanha.com.br"
+              required
+            />
           </div>
 
           <div className="login-form-group">

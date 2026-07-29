@@ -71,6 +71,10 @@ export function parseIntentFromText(mensagem: string): ChatbotIntent {
   if (texto.includes('garanhuns')) municipios.push('Garanhuns');
   if (texto.includes('jaboatão') || texto.includes('jaboatao')) municipios.push('Jaboatão dos Guararapes');
   if (texto.includes('serra talhada')) municipios.push('Serra Talhada');
+  if (texto.includes('cabo') || texto.includes('cabo de santo agostinho')) municipios.push('Cabo de Santo Agostinho');
+  if (texto.includes('paulista')) municipios.push('Paulista');
+  if (texto.includes('vitória') || texto.includes('vitoria')) municipios.push('Vitória de Santo Antão');
+  if (texto.includes('araripina')) municipios.push('Araripina');
 
   let mesorregiao: string | undefined;
   if (texto.includes('zona da mata')) mesorregiao = 'Zona da Mata';
@@ -78,7 +82,21 @@ export function parseIntentFromText(mensagem: string): ChatbotIntent {
   if (texto.includes('sertão') || texto.includes('sertao')) mesorregiao = 'Sertão';
   if (texto.includes('metropolitana') || texto.includes('rmr')) mesorregiao = 'Região Metropolitana do Recife';
 
-  // 4. Identifica Intenção e Métrica
+  // 4. Identifica Ano Eleitoral da Pergunta
+  let anoEleicao = 2024;
+  if (texto.includes('2022')) {
+    anoEleicao = 2022;
+  } else if (texto.includes('2024')) {
+    anoEleicao = 2024;
+  } else {
+    // Se o primeiro candidato for candidato de 2022 (ex: Deputado Federal/Estadual) assume 2022
+    const candObj = CANDIDATOS_OFICIAIS.find((c) => c.id === candidatos[0]);
+    if (candObj && candObj.eleicao_id === 2) {
+      anoEleicao = 2022;
+    }
+  }
+
+  // 5. Identifica Intenção e Métrica
   let intencao: ChatbotIntent['intencao'] = 'comparar_candidatos';
   let metrica: ChatbotIntent['metrica'] = 'forca';
 
@@ -113,9 +131,8 @@ export function parseIntentFromText(mensagem: string): ChatbotIntent {
       municipios: municipios.length > 0 ? municipios : undefined,
     },
     eleicao: {
-      ano: 2022,
+      ano: anoEleicao,
       turno: 1,
-      cargo: 'DEPUTADO FEDERAL',
     },
     metrica,
     ordenacao: 'desc',

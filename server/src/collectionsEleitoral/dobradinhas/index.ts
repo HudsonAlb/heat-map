@@ -1,59 +1,40 @@
-/**
- * GeoVoto - Rotas de Comparação e Parcerias (Candidato A + B + C)
- * Berlim Co.
- */
-
 import { Router, Request, Response } from 'express';
-import { CANDIDATOS_OFICIAIS, buscarUnidadesBrutasMulti, ELEICOES_OFICIAIS } from '../data/realDataStore';
-import { calcularEstatisticasDobradinha } from '../engine/dobradinhaCalculator';
-import { gerarInsightsEstrategicosIA } from '../engine/strategicAiInsights';
-import { CamadaGeografica } from '../types';
+import { CANDIDATOS_OFICIAIS, ELEICOES_OFICIAIS } from '../../data/realDataStore';
+import { buscarUnidadesBrutasMultiTSE } from '../../data/tseDataProvider';
+import { calcularEstatisticasDobradinha } from '../../engine/dobradinhaCalculator';
+import { gerarInsightsEstrategicosIA } from '../../engine/strategicAiInsights';
+import { CamadaGeografica } from '../../types';
 
-const router = Router();
+export const comparacaoRouter = Router();
 
-/**
- * GET /api/comparacao
- *
- * Retorna o cálculo comparativo territorial entre Candidatos da Parceria.
- * Query Params:
- *  - candX: ID do Candidato A (obrigatório)
- *  - candY: ID do Candidato B (opcional)
- *  - candZ: ID do Candidato C (opcional)
- *  - ano: 2024 | 2022 (default: 2024)
- *  - camada: mesorregiao | municipio | bairro | secao (default: municipio)
- *  - microrregiao: filtro por mesorregião (RMR, Zona da Mata, Agreste, Sertão)
- *  - municipio: filtro por município/cidade
- */
-router.get('/', (req: Request, res: Response): void => {
+comparacaoRouter.get('/', (req: Request, res: Response): void => {
   const candXId = Number(req.query.candX || 201);
   const candYId = req.query.candY ? Number(req.query.candY) : undefined;
   const ano = req.query.ano ? Number(req.query.ano) : 2024;
   const camada = (String(req.query.camada || 'municipio')) as CamadaGeografica;
   const microrregiaoFiltro = String(req.query.microrregiao || 'Todas');
   const municipioFiltro = String(req.query.municipio || 'Todos');
+  const bairroFiltro = String(req.query.bairro || 'Todos');
 
   const candX = CANDIDATOS_OFICIAIS.find((c) => c.id === candXId) || CANDIDATOS_OFICIAIS[0];
   const candY = candYId ? CANDIDATOS_OFICIAIS.find((c) => c.id === candYId) : undefined;
 
-  const candIds = [candXId];
-  if (candYId) candIds.push(candYId);
+  // Usa o número de urna do candidato para consultar diretamente o CSV do TSE
+  const { unidades: unidadesBrutas, bairrosDisponiveis } = buscarUnidadesBrutasMultiTSE(
+    [candX.numero],
+    candY?.numero,
+    camada,
+    ano,
+    {
+      mesorregiao: microrregiaoFiltro,
+      municipio: municipioFiltro,
+      bairro: bairroFiltro
+    }
+  );
 
-  // Busca unidades brutas para o ano da eleição e candidatos
-  let unidadesBrutas = buscarUnidadesBrutasMulti(candIds, camada, ano);
-
-  // Aplica filtros geográficos
-  if (microrregiaoFiltro !== 'Todas') {
-    unidadesBrutas = unidadesBrutas.filter(
-      (u) =>
-        u.mesorregiao === microrregiaoFiltro ||
-        (microrregiaoFiltro === 'RMR' && u.mesorregiao.includes('Metropolitana'))
-    );
-  }
-  if (municipioFiltro !== 'Todos') {
-    unidadesBrutas = unidadesBrutas.filter((u) => u.nome_municipio === municipioFiltro);
-  }
-
-  const eleicaoRef = ELEICOES_OFICIAIS.find((e) => e.ano === ano)?.descricao ?? `Eleições ${ano}`;
+  const eleicaoRef = ano === 0
+    ? 'Consolidado (Eleições 2022 & 2024)'
+    : (ELEICOES_OFICIAIS.find((e) => e.ano === ano)?.descricao ?? `Eleições ${ano}`);
   const dataAtualizacao = new Date().toISOString().split('T')[0];
 
   const resultadosCalculados = calcularEstatisticasDobradinha(
@@ -62,7 +43,6 @@ router.get('/', (req: Request, res: Response): void => {
     dataAtualizacao
   );
 
-  // Totais agregados
   const totalEleitores = resultadosCalculados.reduce((acc, r) => acc + r.aptos, 0);
   const totalSecoes = resultadosCalculados.reduce((acc, r) => acc + r.total_secoes, 0);
   const totalVotosX = resultadosCalculados.reduce((acc, r) => acc + r.votos_A, 0);
@@ -81,6 +61,8 @@ router.get('/', (req: Request, res: Response): void => {
   const aiInsights = gerarInsightsEstrategicosIA(resultadosCalculados, candX, candY);
 
   res.json({
+    eleicaoRef,
+    dataAtualizacao,
     candidatoX: candX,
     candidatoY: candY || null,
     anoEleicao: ano,
@@ -93,14 +75,15 @@ router.get('/', (req: Request, res: Response): void => {
       totalVotosX,
       totalVotosY,
       totalVotosDobradinha: totalVotosX + totalVotosY,
+      votoMedioX: resultadosCalculados.length ? Math.round(totalVotosX / resultadosCalculados.length) : 0,
+      votoMedioY: resultadosCalculados.length ? Math.round(totalVotosY / resultadosCalculados.length) : 0,
     },
     rankings: {
       maiorComplementaridade: rankingComplementaridade,
       maiorCanibalizacao: rankingCanibalizacao,
     },
     aiInsights,
+    bairrosDisponiveis,
     territorios: resultadosCalculados,
   });
 });
-
-export default router;

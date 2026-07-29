@@ -708,7 +708,21 @@ body {
 .icon-teal { background: rgba(16, 185, 129, 0.15); color: #10b981; }
 .icon-cand-x { background: rgba(9, 65, 220, 0.2); color: #547cf5; }
 .icon-cand-y { background: rgba(16, 185, 129, 0.2); color: #10b981; }
-.icon-soma { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+.icon-soma {
+  background: linear-gradient(135deg, rgba(9, 65, 220, 0.25), rgba(139, 92, 246, 0.2));
+  color: #a78bfa;
+}
+
+.card-soma {
+  background: linear-gradient(135deg, rgba(9, 65, 220, 0.12) 0%, rgba(139, 92, 246, 0.08) 100%);
+  border-color: rgba(9, 65, 220, 0.45);
+  box-shadow: 0 4px 20px rgba(9, 65, 220, 0.2), var(--shadow-sm);
+}
+
+.card-soma:hover {
+  border-color: rgba(99, 102, 241, 0.6);
+  box-shadow: 0 6px 28px rgba(9, 65, 220, 0.35);
+}
 
 .kpi-content {
   display: flex;
@@ -1145,6 +1159,46 @@ body {
   outline: none;
 }
 
+.header-user-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 12px 4px 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  margin-right: 4px;
+}
+
+.header-profile-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid var(--color-accent-light);
+}
+
+.header-profile-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-profile-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1.2;
+}
+
+.header-profile-role {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+
 .user-email-tag {
   font-size: 12px;
   font-weight: 600;
@@ -1330,6 +1384,34 @@ body {
 .resumo-lbl { color: var(--color-text-secondary); }
 .resumo-val { font-weight: 700; color: var(--color-text-primary); font-family: var(--font-mono); }
 .val-soma { color: var(--color-soma); font-size: 14px; }
+
+.resumo-breakdown-container {
+  margin-top: 6px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.resumo-lbl-sub {
+  color: var(--color-text-secondary);
+  font-size: 11px;
+}
+
+.resumo-val-sub {
+  font-weight: 600;
+  font-size: 11px;
+  font-family: var(--font-mono);
+}
+
+.val-cand-x {
+  color: #38bdf8;
+}
+
+.val-cand-y {
+  color: #34d399;
+}
 
 /* ─── Main View ────────────────────────────────────────────────────────────── */
 .geovoto-main-view {
@@ -2441,4 +2523,143 @@ body {
   .header-brand-title h1 {
     font-size: 12px;
   }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * MAP HOVER FLAG TOOLTIP & MAPLIBRE POPUP STYLING (ALTO CONTRASTE)
+ * ───────────────────────────────────────────────────────────────────────────── */
+.map-hover-flag-tooltip {
+  position: absolute;
+  z-index: 9999;
+  pointer-events: none;
+  background: rgba(10, 15, 30, 0.95);
+  border: 1px solid rgba(59, 130, 246, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 15px rgba(9, 65, 220, 0.3);
+  backdrop-filter: blur(12px);
+  border-radius: 8px;
+  padding: 10px 14px;
+  min-width: 190px;
+  color: #ffffff !important;
+  font-family: var(--font-sans);
+  transition: transform 0.05s ease-out;
+}
+
+.hover-flag-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+}
+
+.hover-flag-header strong {
+  color: #ffffff !important;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.hover-flag-badge {
+  font-size: 9px;
+  background: rgba(9, 65, 220, 0.4);
+  color: #93c5fd !important;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 800;
+  margin-left: auto;
+}
+
+.hover-flag-body {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.hover-flag-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #cbd5e1 !important;
+}
+
+.hover-flag-row span {
+  color: #cbd5e1 !important;
+}
+
+.hover-flag-row strong {
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.hover-flag-row .text-cand-x {
+  color: #60a5fa !important;
+}
+
+.hover-flag-row .text-cand-y {
+  color: #34d399 !important;
+}
+
+.hover-flag-row .text-soma {
+  color: #fbbf24 !important;
+}
+
+.hover-flag-row.total-row {
+  border-top: 1px dashed rgba(255, 255, 255, 0.15);
+  padding-top: 5px;
+  margin-top: 3px;
+}
+
+/* MapLibre Popup Overrides */
+.maplibregl-popup-content,
+.mapboxgl-popup-content {
+  background: rgba(10, 15, 30, 0.95) !important;
+  border: 1px solid rgba(59, 130, 246, 0.4) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7) !important;
+  border-radius: 10px !important;
+  color: #ffffff !important;
+  padding: 14px 16px !important;
+}
+
+.maplibregl-popup-anchor-top .maplibregl-popup-tip,
+.mapboxgl-popup-anchor-top .mapboxgl-popup-tip {
+  border-bottom-color: rgba(10, 15, 30, 0.95) !important;
+}
+
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip,
+.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
+  border-top-color: rgba(10, 15, 30, 0.95) !important;
+}
+
+.maplibregl-popup-close-button,
+.mapboxgl-popup-close-button {
+  color: #94a3b8 !important;
+  font-size: 16px !important;
+  padding: 4px 8px !important;
+}
+
+.maplibregl-popup-close-button:hover,
+.mapboxgl-popup-close-button:hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* ─── LOGOS INTEGRATION ────────────────────────────────────────────────────── */
+.login-full-logo {
+  height: 90px;
+  margin-bottom: 16px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header-logo-img {
+  height: 28px;
+  display: block;
+}
+
+.kpi-logo-simbolo {
+  height: 28px;
+  width: 28px;
+  display: block;
 }
