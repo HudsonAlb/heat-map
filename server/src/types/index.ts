@@ -35,6 +35,7 @@ export interface Candidato {
   eleicao_id: number;
   situacao: string;
   municipio?: string;
+  uf?: string;
   criado_em?: string;
 }
 

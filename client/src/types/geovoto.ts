@@ -11,6 +11,7 @@ export interface Candidato {
   cargo: string;
   foto_url?: string;
   municipio?: string;
+  uf?: string;
 }
 
 export interface SecaoEleitoral {
