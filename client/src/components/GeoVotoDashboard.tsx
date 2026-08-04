@@ -218,12 +218,14 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
         return;
       }
       const fallbackList: Candidato[] = [
-        { id: 101, nome_urna: 'PEDRO CAMPOS', nome_completo: 'PEDRO HENRIQUE DE ARRAES ALENCAR CAMPOS', partido: 'PSB', numero: 4000, cargo: 'deputado_federal' },
-        { id: 102, nome_urna: 'SILENO GOUVEIA', nome_completo: 'SILENO DE SOUSA GOUVEIA', partido: 'PSB', numero: 40123, cargo: 'deputado_estadual' },
+        { id: 101, nome_urna: 'PEDRO CAMPOS', nome_completo: 'PEDRO HENRIQUE CAMPOS', partido: 'PSB', numero: 4040, cargo: 'DEPUTADO FEDERAL' },
+        { id: 201, nome_urna: 'JOÃO CAMPOS', nome_completo: 'JOÃO HENRIQUE DE ANDRADE LIMA CAMPOS', partido: 'PSB', numero: 40, cargo: 'PREFEITO' },
+        { id: 777, nome_urna: 'MARÍLIA ARRAES', nome_completo: 'MARÍLIA VALENÇA ROCHA ARRAES DE ALENCAR', partido: 'SOLIDARIEDADE', numero: 77, cargo: 'GOVERNADOR' },
+        { id: 139, nome_urna: 'STE VILELA', nome_completo: 'STERPHANIE VILELA', partido: 'PSB', numero: 40180, cargo: 'VEREADOR' },
       ];
       setCandidatosLista(fallbackList);
       setCandX((prev) => prev || fallbackList[0]);
-      setCandY((prev) => prev || fallbackList[1]);
+      setCandY((prev) => prev || fallbackList[2]); // Marília Arraes como parceira/opção inicial B
     }
 
     loadInitialData();
