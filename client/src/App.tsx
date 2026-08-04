@@ -7,6 +7,14 @@ import './App.css';
 
 const USUARIOS_DEMO: UsuarioRBAC[] = [
   {
+    id: 999,
+    nome: 'Berlim Gestão',
+    email: 'berlim.gestao@campanha.com.br',
+    papel: 'gestao_master',
+    dados_limpos: true,
+    escopo_geografico: { uf: 'PE' },
+  },
+  {
     id: 139,
     nome: 'Ste Vilela',
     email: 'ste.vilela@campanha.com.br',

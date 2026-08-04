@@ -2,15 +2,17 @@ import React from 'react';
 import type { Candidato, CamadaGeografica, ModoVisualizacao } from '../types/geovoto';
 
 interface GeoVotoSidebarProps {
-  // / Filtro de busca
-  filterSearch: string;
-  onSearchChange: (val: string) => void;
+  // / Ações de Filtro
+  onApplyFilters?: () => void;
+  onResetFilters?: () => void;
 
   // / Região
   camadaAtiva: CamadaGeografica;
   onCamadaChange: (camada: CamadaGeografica) => void;
   mesorregiaoAtiva: string;
   onMesorregiaoChange: (meso: string) => void;
+  microrregiaoAtiva?: string;
+  onMicrorregiaoChange?: (micro: string) => void;
   municipioAtivo: string;
   onMunicipioChange: (mun: string) => void;
   bairroAtivo: string;
@@ -39,13 +41,31 @@ interface GeoVotoSidebarProps {
   totalVotosY?: number;
 }
 
+export const LISTA_RDS_PE = [
+  'Todas',
+  'RD 01 - RMR (Região Metropolitana)',
+  'RD 02 - Mata Norte',
+  'RD 03 - Mata Sul',
+  'RD 04 - Agreste Central',
+  'RD 05 - Agreste Setentrional',
+  'RD 06 - Agreste Meridional',
+  'RD 07 - Sertão do Moxotó',
+  'RD 08 - Sertão do Pajeú',
+  'RD 09 - Sertão do Araripe',
+  'RD 10 - Sertão Central',
+  'RD 11 - Sertão do São Francisco',
+  'RD 12 - Sertão de Itaparica',
+];
+
 export const GeoVotoSidebar: React.FC<GeoVotoSidebarProps> = ({
-  filterSearch,
-  onSearchChange,
+  onApplyFilters,
+  onResetFilters,
   camadaAtiva,
   onCamadaChange,
   mesorregiaoAtiva,
   onMesorregiaoChange,
+  microrregiaoAtiva = 'Todas',
+  onMicrorregiaoChange,
   municipioAtivo,
   onMunicipioChange,
   bairroAtivo,
@@ -67,29 +87,68 @@ export const GeoVotoSidebar: React.FC<GeoVotoSidebarProps> = ({
   totalVotosX,
   totalVotosY,
 }) => {
-  // Ordenação Alfabética da Lista de Candidatos pelo Nome de Urna
+  // Ordenação Alfabética da Lista de Candidatos (Com Visão Geral no topo)
   const candidatosOrdenados = React.useMemo(() => {
-    return [...candidatosLista].sort((a, b) =>
-      a.nome_urna.localeCompare(b.nome_urna, 'pt-BR')
-    );
+    const geral = candidatosLista.find((c) => c.id === 0);
+    const outros = candidatosLista
+      .filter((c) => c.id !== 0)
+      .sort((a, b) => a.nome_urna.localeCompare(b.nome_urna, 'pt-BR'));
+    return geral ? [geral, ...outros] : outros;
   }, [candidatosLista]);
 
   return (
     <aside className="geovoto-sidebar-panel">
-      {/* ── 1. FILTRO DE BUSCA ───────────────────────────────────────────── */}
-      <div className="sidebar-block">
-        <h3 className="block-tag-title">
-          <span className="slash-tag">/</span> Filtro de busca
-        </h3>
-        <div className="filter-group">
-          <input
-            type="text"
-            className="sidebar-search-field"
-            placeholder="Buscar Cidade, Bairro ou Comunidade..."
-            value={filterSearch}
-            onChange={(e) => onSearchChange(e.target.value)}
-          />
-        </div>
+      {/* ── 1. BOTÃO PRINCIPAL DE FILTRAR ──────────────────────────────── */}
+      <div className="sidebar-block filter-actions-block">
+        <button
+          type="button"
+          className="btn btn-primary btn-block btn-lg filter-trigger-btn"
+          onClick={() => onApplyFilters && onApplyFilters()}
+          style={{
+            width: '100%',
+            padding: '12px 16px',
+            fontSize: '15px',
+            fontWeight: 700,
+            backgroundColor: '#0941dc',
+            color: '#ffffff',
+            border: 'none',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            boxShadow: '0 4px 12px rgba(9, 65, 220, 0.3)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            transition: 'all 0.2s ease',
+          }}
+        >
+          🔍 FILTRAR DADOS
+        </button>
+        {onResetFilters && (
+          <button
+            type="button"
+            className="btn btn-outline btn-block btn-sm filter-reset-btn"
+            onClick={onResetFilters}
+            style={{
+              width: '100%',
+              marginTop: '8px',
+              padding: '8px 12px',
+              fontSize: '13px',
+              fontWeight: 600,
+              backgroundColor: 'transparent',
+              color: '#94a3b8',
+              border: '1px solid #334155',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px',
+            }}
+          >
+            🧹 Limpar Filtros
+          </button>
+        )}
       </div>
 
       {/* ── 2. REGIÃO ────────────────────────────────────────────────────── */}
@@ -137,6 +196,7 @@ export const GeoVotoSidebar: React.FC<GeoVotoSidebarProps> = ({
             value={mesorregiaoAtiva}
             onChange={(e) => {
               onMesorregiaoChange(e.target.value);
+              if (onMicrorregiaoChange) onMicrorregiaoChange('Todas');
               onMunicipioChange('Todos');
               onBairroChange('Todos');
             }}
@@ -146,6 +206,26 @@ export const GeoVotoSidebar: React.FC<GeoVotoSidebarProps> = ({
             <option value="Zona da Mata">Zona da Mata</option>
             <option value="Agreste">Agreste Pernambucano</option>
             <option value="Sertão">Sertão Pernambucano</option>
+          </select>
+        </div>
+
+        {/* RD — Região de Desenvolvimento Select */}
+        <div className="filter-group">
+          <label className="sidebar-label">RD — Região de Desenvolvimento (PE):</label>
+          <select
+            className="sidebar-select"
+            value={microrregiaoAtiva}
+            onChange={(e) => {
+              if (onMicrorregiaoChange) onMicrorregiaoChange(e.target.value);
+              onMunicipioChange('Todos');
+              onBairroChange('Todos');
+            }}
+          >
+            {LISTA_RDS_PE.map((rd) => (
+              <option key={rd} value={rd}>
+                {rd === 'Todas' ? 'Todas as RDs de PE' : rd}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -304,6 +384,18 @@ export const GeoVotoSidebar: React.FC<GeoVotoSidebarProps> = ({
             onClick={() => onAnoEleicaoChange(2022)}
           >
             🗳️ Eleições 2022 (Gerais)
+          </button>
+          <button
+            className={`history-btn ${anoEleicao === 2020 ? 'active' : ''}`}
+            onClick={() => onAnoEleicaoChange(2020)}
+          >
+            🏛️ Eleições 2020 (Municipais)
+          </button>
+          <button
+            className={`history-btn ${anoEleicao === 2018 ? 'active' : ''}`}
+            onClick={() => onAnoEleicaoChange(2018)}
+          >
+            🗳️ Eleições 2018 (Gerais)
           </button>
         </div>
       </div>

@@ -117,6 +117,7 @@ export interface UsuarioRBAC {
   papel: string;
   candidato_id_padrao?: number;
   foto_url?: string;
+  dados_limpos?: boolean;
   escopo_geografico: {
     uf: string;
     mesorregioes?: string[];

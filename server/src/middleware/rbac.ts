@@ -14,6 +14,15 @@ export interface RequestComUsuario extends Request {
 /** Usuários de demonstração por papel com escopos geográficos delimitados */
 export const USUARIOS_DEMO: Usuario[] = [
   {
+    id: 999,
+    nome: 'Berlim Gestão',
+    email: 'berlim.gestao@campanha.com.br',
+    papel: 'gestao_master',
+    escopo_geografico: { uf: 'PE' },
+    dados_limpos: true,
+    ativo: true,
+  },
+  {
     id: 1,
     nome: 'Carlos Eduardo',
     email: 'carlos@campanha.com.br',

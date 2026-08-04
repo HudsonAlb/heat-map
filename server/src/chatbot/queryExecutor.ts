@@ -7,11 +7,19 @@ import { ChatbotIntent, ChatbotResponse, EscopoGeografico } from '../types';
 import { CANDIDATOS_OFICIAIS, ELEICOES_OFICIAIS } from '../data/realDataStore';
 import { buscarUnidadesBrutasMultiTSE } from '../data/tseDataProvider';
 import { calcularEstatisticasDobradinha, UnidadeBruta } from '../engine/dobradinhaCalculator';
+import { DADOS_BERLIM_GESTAO, obterCandidatosBerlimGestao, obterRDPorMunicipio } from '../data/berlimGestaoDataStore';
 
 export function executarConsultaChatbot(
   intent: ChatbotIntent,
-  escopoUsuario?: EscopoGeografico
+  escopoUsuario?: EscopoGeografico,
+  isBerlimGestao?: boolean,
+  mensagemTexto?: string
 ): ChatbotResponse {
+  const mensagem = (mensagemTexto || '').trim();
+
+  if (isBerlimGestao) {
+    return executarConsultaBerlimGestao(mensagem, intent);
+  }
   const candX = CANDIDATOS_OFICIAIS.find((c) => c.id === intent.candidatos[0]) || CANDIDATOS_OFICIAIS[0];
   const candY = CANDIDATOS_OFICIAIS.find((c) => c.id === intent.candidatos[1]) || CANDIDATOS_OFICIAIS[1];
 
@@ -133,6 +141,145 @@ export function executarConsultaChatbot(
       microrregiao: intent.recorte.mesorregiao,
       municipio: intent.recorte.municipios ? intent.recorte.municipios[0] : undefined,
       modo: intent.intencao === 'voto_candidato_isolado' ? 'isolado_x' : 'soma',
+    },
+  };
+}
+
+export function executarConsultaBerlimGestao(
+  mensagem: string,
+  intent: ChatbotIntent
+): ChatbotResponse {
+  const normMsg = mensagem.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  const candsNominais = obterCandidatosBerlimGestao();
+
+  // 1. Busca se a mensagem menciona um município específico
+  const munMatch = DADOS_BERLIM_GESTAO.find((item) => {
+    const munNorm = item.municipio.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    return normMsg.includes(munNorm);
+  });
+
+  if (munMatch) {
+    const rd = obterRDPorMunicipio(munMatch.municipio, munMatch.mesorregiao);
+    let txt = `Analisando o resultado eleitoral do município de **${munMatch.municipio}** (${rd}):\n\n`;
+    txt += `- 🏛️ **Eleitorado Apto:** **${munMatch.eleitores.toLocaleString('pt-BR')} eleitores**\n`;
+    txt += `- 🥇 **Prefeito Eleito (1º Lugar):** **${munMatch.prefeito_eleito}** com **${munMatch.votos_1lugar.toLocaleString('pt-BR')} votos**\n`;
+    if (munMatch.segundo_lugar && munMatch.votos_2lugar) {
+      txt += `- 🥈 **2º Colocado:** **${munMatch.segundo_lugar}** com **${munMatch.votos_2lugar.toLocaleString('pt-BR')} votos**\n`;
+    }
+    if (munMatch.terceiro_lugar && munMatch.votos_3lugar) {
+      txt += `- 🥉 **3º Colocado:** **${munMatch.terceiro_lugar}** com **${munMatch.votos_3lugar.toLocaleString('pt-BR')} votos**\n`;
+    }
+    return {
+      texto: txt,
+      intent,
+      dados: [],
+      fonte: {
+        eleicao_referencia: 'Eleições Municipais Pernambuco (Berlim Gestão)',
+        camada: 'municipio',
+        filtros: `Município: ${munMatch.municipio} | RD: ${rd}`,
+        data_atualizacao: new Date().toISOString().split('T')[0],
+      },
+    };
+  }
+
+  // 2. Busca se a mensagem menciona um candidato específico pelo nome real
+  const candMatch = candsNominais.find((c) => {
+    const candNorm = c.nome_urna.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    return normMsg.includes(candNorm);
+  });
+
+  if (candMatch) {
+    const itemMun = DADOS_BERLIM_GESTAO.find((i) => i.municipio === candMatch.municipio);
+    let txt = `Analisando os dados do candidato **${candMatch.nome_urna}**:\n\n`;
+    if (itemMun) {
+      const rd = obterRDPorMunicipio(itemMun.municipio, itemMun.mesorregiao);
+      let votos = 0;
+      if (candMatch.nome_urna === itemMun.prefeito_eleito) votos = itemMun.votos_1lugar;
+      else if (candMatch.nome_urna === itemMun.segundo_lugar) votos = itemMun.votos_2lugar || 0;
+      else if (candMatch.nome_urna === itemMun.terceiro_lugar) votos = itemMun.votos_3lugar || 0;
+
+      txt += `- 👤 **Candidato:** **${candMatch.nome_urna}** (${candMatch.situacao})\n`;
+      txt += `- 📍 **Município de Disputa:** **${itemMun.municipio}** (${rd})\n`;
+      txt += `- 🗳️ **Total de Votos Obtidos:** **${votos.toLocaleString('pt-BR')} votos**\n`;
+      txt += `- 📊 **Total do Eleitorado Local:** **${itemMun.eleitores.toLocaleString('pt-BR')} eleitores**`;
+    } else {
+      txt += `- 👤 **Candidato:** **${candMatch.nome_urna}** (${candMatch.situacao})\n`;
+      txt += `- 📍 **Disputa:** Pernambuco`;
+    }
+    return {
+      texto: txt,
+      intent,
+      dados: [],
+      fonte: {
+        eleicao_referencia: 'Eleições Municipais Pernambuco (Berlim Gestão)',
+        camada: 'municipio',
+        filtros: `Candidato: ${candMatch.nome_urna}`,
+        data_atualizacao: new Date().toISOString().split('T')[0],
+      },
+    };
+  }
+
+  // 3. Busca se menciona uma RD (Região de Desenvolvimento) ou Mesorregião
+  const rdsNorm = [
+    'AGRESTE CENTRAL', 'AGRESTE MERIDIONAL', 'AGRESTE SETENTRIONAL',
+    'SERTAO PAJEU', 'SERTAO SÃO FRANCISCO', 'SERTAO ARARIPE', 'SERTAO CENTRAL', 'SERTAO MOXOTO', 'SERTAO ITAPARICA',
+    'MATA SUL', 'MATA NORTE', 'RMR', 'REGIAO METROPOLITANA'
+  ];
+
+  const rdFound = rdsNorm.find((r) => normMsg.includes(r));
+  if (rdFound) {
+    const itensRD = DADOS_BERLIM_GESTAO.filter((i) => {
+      const rd = obterRDPorMunicipio(i.municipio, i.mesorregiao).toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      const meso = i.mesorregiao.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      return rd.includes(rdFound) || meso.includes(rdFound);
+    });
+
+    if (itensRD.length > 0) {
+      const totalEleitoresRD = itensRD.reduce((acc, r) => acc + r.eleitores, 0);
+      const totalVotosVencedores = itensRD.reduce((acc, r) => acc + r.votos_1lugar, 0);
+      const topMuns = [...itensRD].sort((a, b) => b.eleitores - a.eleitores).slice(0, 3);
+      const topFrase = topMuns.map((m) => `**${m.municipio}** (${m.eleitores.toLocaleString('pt-BR')} eleitores - Vencedor: ${m.prefeito_eleito})`).join(', ');
+
+      let txt = `Resumo Estratégico da região **${rdFound}**:\n\n`;
+      txt += `- 🏙️ **Municípios Analisados:** **${itensRD.length} cidades**\n`;
+      txt += `- 👥 **Eleitorado Total:** **${totalEleitoresRD.toLocaleString('pt-BR')} eleitores aptos**\n`;
+      txt += `- 🗳️ **Total de Votos dos Vencedores:** **${totalVotosVencedores.toLocaleString('pt-BR')} votos**\n`;
+      txt += `- 🏆 **Maiores Colégios Eleitorais da Região:** ${topFrase}`;
+
+      return {
+        texto: txt,
+        intent,
+        dados: [],
+        fonte: {
+          eleicao_referencia: 'Eleições Municipais Pernambuco (Berlim Gestão)',
+          camada: 'mesorregiao',
+          filtros: `Região: ${rdFound}`,
+          data_atualizacao: new Date().toISOString().split('T')[0],
+        },
+      };
+    }
+  }
+
+  // 4. Resposta padrão do consolidado de Pernambuco (Berlim Gestão)
+  const totalEleitoresEstado = DADOS_BERLIM_GESTAO.reduce((acc, r) => acc + r.eleitores, 0);
+  const totalCidades = DADOS_BERLIM_GESTAO.length;
+  const totalVotosVencedores = DADOS_BERLIM_GESTAO.reduce((acc, r) => acc + r.votos_1lugar, 0);
+
+  const txtGeral = `Análise Geral do Eleitorado de Pernambuco (Base Berlim Gestão):\n\n` +
+    `- 📍 **Abrangência:** **${totalCidades} municípios** divididos nas **12 Regiões de Desenvolvimento (RDs)**\n` +
+    `- 👥 **Eleitorado Total:** **${totalEleitoresEstado.toLocaleString('pt-BR')} eleitores aptos**\n` +
+    `- 🗳️ **Total de Votos dos Prefeitos Eleitos:** **${totalVotosVencedores.toLocaleString('pt-BR')} votos**\n\n` +
+    `Você pode perguntar sobre um município específico (ex: *'Qual o resultado em Caruaru?'*), um candidato (ex: *'Quantos votos teve Rodrigo Pinheiro?'*) ou uma região!`;
+
+  return {
+    texto: txtGeral,
+    intent,
+    dados: [],
+    fonte: {
+      eleicao_referencia: 'Eleições Municipais Pernambuco (Berlim Gestão)',
+      camada: 'municipio',
+      filtros: 'UF: Pernambuco | Todas as RDs',
+      data_atualizacao: new Date().toISOString().split('T')[0],
     },
   };
 }

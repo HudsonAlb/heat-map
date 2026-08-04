@@ -86,9 +86,10 @@ export interface Usuario {
   id: number;
   nome: string;
   email: string;
-  papel: 'responsavel_campanha' | 'coordenador_geral' | 'coordenador_regional' | 'gestor_midia';
+  papel: 'responsavel_campanha' | 'coordenador_geral' | 'coordenador_regional' | 'gestor_midia' | 'gestao_master';
   escopo_geografico: EscopoGeografico;
   campanha_id?: number;
+  dados_limpos?: boolean;
   ativo: boolean;
 }
 
@@ -178,7 +179,7 @@ export interface ChatbotResponse {
     filtros: string;
     data_atualizacao: string;
   };
-  deep_link: {
+  deep_link?: {
     candXId: number;
     candYId: number;
     camada: CamadaGeografica;

@@ -24,6 +24,22 @@ export const ELEICOES_OFICIAIS: Eleicao[] = [
     uf: 'PE',
     descricao: 'Eleições Gerais 2022 - 1º Turno (Deputado Federal / Deputado Estadual / Governador / Senador)',
   },
+  {
+    id: 3,
+    ano: 2020,
+    turno: 1,
+    tipo_pleito: 'MUNICIPAL',
+    uf: 'PE',
+    descricao: 'Eleições Municipais 2020 - 1º Turno (Prefeito / Vereador)',
+  },
+  {
+    id: 4,
+    ano: 2018,
+    turno: 1,
+    tipo_pleito: 'GERAL',
+    uf: 'PE',
+    descricao: 'Eleições Gerais 2018 - 1º Turno (Deputado Federal / Deputado Estadual / Governador / Senador)',
+  },
 ];
 
 // LISTA DE CANDIDATOS DE INTERESSE DA CAMPANHA

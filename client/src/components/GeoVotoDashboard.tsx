@@ -23,10 +23,19 @@ import { SavedDobradinhasModal } from './SavedDobradinhasModal';
 import { ChatbotDrawer } from './ChatbotDrawer';
 import { ChatbotFab } from './ChatbotFab';
 import { FooterBar } from './FooterBar';
+import { BerlimGestaoView } from './BerlimGestaoView';
 
 import steVilelaPhoto from '../assets/stevilela.jpg';
 
 const USUARIOS_DEMO: UsuarioRBAC[] = [
+  {
+    id: 999,
+    nome: 'Berlim Gestão',
+    email: 'berlim.gestao@campanha.com.br',
+    papel: 'gestao_master',
+    dados_limpos: true,
+    escopo_geografico: { uf: 'PE' },
+  },
   {
     id: 139,
     nome: 'Ste Vilela',
@@ -86,9 +95,9 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
   const [candY, setCandY] = useState<Candidato | undefined>(undefined);
 
   // Estados dos Filtros da Sidebar
-  const [filterSearch, setFilterSearch] = useState('');
   const [camadaAtiva, setCamadaAtiva] = useState<CamadaGeografica>('municipio');
   const [mesorregiaoAtiva, setMesorregiaoAtiva] = useState<string>('Todas');
+  const [microrregiaoAtiva, setMicrorregiaoAtiva] = useState<string>('Todas');
   const [municipioAtivo, setMunicipioAtivo] = useState<string>('Todos');
   const [bairroAtivo, setBairroAtivo] = useState<string>('Todos');
   const [modoAtivo, setModoAtivo] = useState<ModoVisualizacao>(
@@ -105,7 +114,7 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
   const [error, setError] = useState<string | null>(null);
 
   // Estado das Abas do Painel
-  const [activeTab, setActiveTab] = useState<'map' | 'table' | 'metrics'>('map');
+  const [activeTab, setActiveTab] = useState<'map' | 'table' | 'metrics' | 'berlim_table'>('map');
 
   // Modais e Drawers
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
@@ -119,7 +128,9 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
       try {
         const anoParam = anoEleicao === 0 ? '' : `ano=${anoEleicao}`;
         const [candRes, dobRes] = await Promise.allSettled([
-          fetch(`/api/candidatos${anoParam ? `?${anoParam}` : ''}`),
+          fetch(`/api/candidatos${anoParam ? `?${anoParam}` : ''}`, {
+            headers: { 'X-User-Email': usuarioAtual?.email || '' },
+          }),
           fetch('/api/dobradinhas'),
         ]);
 
@@ -129,8 +140,23 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
           if (list.length > 0) {
             setCandidatosLista(list);
 
-            // Se o usuário logado tem um perfil de candidato específico (ex: Ste Vilela ID 139)
-            if (usuarioAtual?.candidato_id_padrao) {
+            if (usuarioAtual?.email === 'berlim.gestao@campanha.com.br' || usuarioAtual?.dados_limpos) {
+              setCandX((prev) => {
+                if (prev) {
+                  const match = list.find((c) => c.id === prev.id);
+                  if (match) return match;
+                }
+                return list[0];
+              });
+              setCandY((prev) => {
+                if (prev !== undefined) {
+                  const match = list.find((c) => c.id === prev.id);
+                  if (match) return match;
+                  return prev;
+                }
+                return undefined;
+              });
+            } else if (usuarioAtual?.candidato_id_padrao) {
               const perfilCand = list.find((c) => c.id === usuarioAtual.candidato_id_padrao);
               if (perfilCand) {
                 setCandX(perfilCand);
@@ -141,7 +167,7 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
               }
             } else {
               setCandX((prev) => prev || list[0]);
-              setCandY((prev) => prev || (list.length > 1 ? list[1] : undefined));
+              setCandY((prev) => (prev !== undefined ? (list.find((c) => c.id === prev.id) || prev) : undefined));
             }
           } else {
             usarCandidatosFallback();
@@ -161,6 +187,16 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
     }
 
     function usarCandidatosFallback() {
+      if (usuarioAtual?.dados_limpos || usuarioAtual?.email === 'berlim.gestao@campanha.com.br') {
+        const berlimFallback: Candidato[] = [
+          { id: 9901, nome_urna: 'PREFEITOS ELEITOS PE (1º LUGAR)', nome_completo: 'CHAPA DOS PREFEITOS ELEITOS EM PERNAMBUCO (1º COLOCADOS)', partido: 'PREFEITURA PE', numero: 991, cargo: 'PREFEITO' },
+          { id: 9902, nome_urna: 'OPOSIÇÃO MUNICIPAL (2º LUGAR)', nome_completo: 'CHAPA DOS SEGUNDOS COLOCADOS EM PERNAMBUCO (2º PLACE)', partido: 'OPOSIÇÃO PE', numero: 992, cargo: 'PREFEITO' },
+        ];
+        setCandidatosLista(berlimFallback);
+        setCandX(berlimFallback[0]);
+        setCandY(berlimFallback[1]);
+        return;
+      }
       const fallbackList: Candidato[] = [
         { id: 101, nome_urna: 'PEDRO CAMPOS', nome_completo: 'PEDRO HENRIQUE DE ARRAES ALENCAR CAMPOS', partido: 'PSB', numero: 4000, cargo: 'deputado_federal' },
         { id: 102, nome_urna: 'SILENO GOUVEIA', nome_completo: 'SILENO DE SOUSA GOUVEIA', partido: 'PSB', numero: 40123, cargo: 'deputado_estadual' },
@@ -185,7 +221,7 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
         candX: String(candX.id),
         ano: String(anoEleicao),
         camada: camadaAtiva,
-        microrregiao: mesorregiaoAtiva,
+        microrregiao: microrregiaoAtiva !== 'Todas' ? microrregiaoAtiva : mesorregiaoAtiva,
         municipio: municipioAtivo,
         bairro: bairroAtivo,
       });
@@ -209,7 +245,7 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
     } finally {
       setIsLoading(false);
     }
-  }, [candX, candY, anoEleicao, camadaAtiva, mesorregiaoAtiva, municipioAtivo, bairroAtivo, usuarioAtual]);
+  }, [candX, candY, anoEleicao, camadaAtiva, mesorregiaoAtiva, microrregiaoAtiva, municipioAtivo, bairroAtivo, usuarioAtual]);
 
   useEffect(() => {
     fetchComparacao();
@@ -242,11 +278,6 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
     if (!resultado) return [];
     let list = [...resultado.territorios];
 
-    if (filterSearch.trim()) {
-      const term = filterSearch.toLowerCase();
-      list = list.filter((t) => t.nome.toLowerCase().includes(term));
-    }
-
     return list.sort((a, b) => {
       if (ordenacaoDados === 'forca') return b.forca_dobradinha - a.forca_dobradinha;
       if (ordenacaoDados === 'aptos') return b.aptos - a.aptos;
@@ -255,7 +286,7 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
       if (ordenacaoDados === 'alfabetica') return a.nome.localeCompare(b.nome, 'pt-BR');
       return 0;
     });
-  }, [resultado, filterSearch, ordenacaoDados]);
+  }, [resultado, ordenacaoDados]);
 
   // Handlers
   const handleLogin = (usuario: UsuarioRBAC) => {
@@ -381,12 +412,22 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
               />
 
               <GeoVotoSidebar
-                filterSearch={filterSearch}
-                onSearchChange={setFilterSearch}
+                onApplyFilters={() => {
+                  fetchComparacao();
+                  setIsMobileFilterDrawerOpen(false);
+                }}
+                onResetFilters={() => {
+                  setMesorregiaoAtiva('Todas');
+                  setMicrorregiaoAtiva('Todas');
+                  setMunicipioAtivo('Todos');
+                  setBairroAtivo('Todos');
+                }}
                 camadaAtiva={camadaAtiva}
                 onCamadaChange={setCamadaAtiva}
                 mesorregiaoAtiva={mesorregiaoAtiva}
                 onMesorregiaoChange={setMesorregiaoAtiva}
+                microrregiaoAtiva={microrregiaoAtiva}
+                onMicrorregiaoChange={setMicrorregiaoAtiva}
                 municipioAtivo={municipioAtivo}
                 onMunicipioChange={setMunicipioAtivo}
                 bairroAtivo={bairroAtivo}
@@ -435,12 +476,19 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
         {candX && (
           <div className="desktop-sidebar-wrapper">
             <GeoVotoSidebar
-              filterSearch={filterSearch}
-              onSearchChange={setFilterSearch}
+              onApplyFilters={fetchComparacao}
+              onResetFilters={() => {
+                setMesorregiaoAtiva('Todas');
+                setMicrorregiaoAtiva('Todas');
+                setMunicipioAtivo('Todos');
+                setBairroAtivo('Todos');
+              }}
               camadaAtiva={camadaAtiva}
               onCamadaChange={setCamadaAtiva}
               mesorregiaoAtiva={mesorregiaoAtiva}
               onMesorregiaoChange={setMesorregiaoAtiva}
+              microrregiaoAtiva={microrregiaoAtiva}
+              onMicrorregiaoChange={setMicrorregiaoAtiva}
               municipioAtivo={municipioAtivo}
               onMunicipioChange={setMunicipioAtivo}
               bairroAtivo={bairroAtivo}
@@ -494,6 +542,14 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
               >
                 📈 Métricas IA
               </button>
+              {(usuarioAtual?.dados_limpos || usuarioAtual?.email === 'berlim.gestao@campanha.com.br') && (
+                <button
+                  className={`nav-tab-btn ${activeTab === 'berlim_table' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('berlim_table')}
+                >
+                  📊 Tabela Geral PE (Berlim)
+                </button>
+              )}
             </div>
           </div>
 
@@ -513,8 +569,13 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
             </div>
           )}
 
+          {/* MÓDULO BERLIM GESTÃO — TABELA GERAL PE */}
+          {!isLoading && activeTab === 'berlim_table' && (
+            <BerlimGestaoView />
+          )}
+
           {/* CONTEÚDO DAS ABAS */}
-          {!isLoading && resultado && candX && (
+          {!isLoading && resultado && candX && activeTab !== 'berlim_table' && (
             <div className="tab-body-container">
               {/* ABA 1: MAPA */}
               {activeTab === 'map' && (

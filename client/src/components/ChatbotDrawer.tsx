@@ -24,7 +24,7 @@ const QUICK_PROMPTS: QuickPrompt[] = [
 export const ChatbotDrawer: React.FC<ChatbotDrawerProps> = ({
   isOpen,
   onClose,
-  onApplyDeepLink,
+  userEmail,
 }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
@@ -64,8 +64,11 @@ export const ChatbotDrawer: React.FC<ChatbotDrawerProps> = ({
 
     fetch('/api/chatbot/mensagem', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ mensagem: texto }),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-User-Email': userEmail || '',
+      },
+      body: JSON.stringify({ mensagem: texto, userEmail }),
     })
       .then((res) => res.json())
       .then((data: ChatbotResponse) => {
@@ -155,18 +158,7 @@ export const ChatbotDrawer: React.FC<ChatbotDrawerProps> = ({
                   </div>
                 )}
 
-                {/* BOTÃO DE DEEP LINK / APLICAÇÃO NO MAPA */}
-                {m.deepLink && onApplyDeepLink && (
-                  <button
-                    className="btn btn-primary btn-sm deep-link-apply-btn"
-                    onClick={() => {
-                      onApplyDeepLink(m.deepLink!);
-                      onClose();
-                    }}
-                  >
-                    🎯 Aplicar Filtro no Mapa →
-                  </button>
-                )}
+
               </div>
             </div>
           ))}

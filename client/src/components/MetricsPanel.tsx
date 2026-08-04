@@ -93,9 +93,9 @@ export const MetricsPanel: React.FC<MetricsPanelProps> = ({
             <p className="ai-exec-summary">{aiInsights.resumoExecutivo}</p>
           </div>
 
-          {/* DIAGNÓSTICO POR MESORREGIÃO (RMR, MATA, AGRESTE, SERTÃO) */}
+          {/* DIAGNÓSTICO POR RD (REGIÕES DE DESENVOLVIMENTO DE PERNAMBUCO) */}
           <div className="meso-diagnostics-wrapper">
-            <h3 className="sub-heading-title">🗺️ Diagnóstico Territorial por Mesorregião</h3>
+            <h3 className="sub-heading-title">🗺️ Diagnóstico Estratégico por RD (Região de Desenvolvimento PE)</h3>
             <div className="meso-diagnostics-grid">
               {aiInsights.diagnosticoMesorregioes.map((d, idx) => (
                 <div key={idx} className="meso-diag-card">

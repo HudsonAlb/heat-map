@@ -17,7 +17,10 @@ const router = Router();
  * Body: { mensagem: string, escopoUsuario?: EscopoGeografico }
  */
 router.post('/mensagem', (req: Request, res: Response): void => {
-  const { mensagem, escopoUsuario } = req.body;
+  const { mensagem, escopoUsuario, userEmail: bodyEmail } = req.body;
+  const headerEmail = (req.headers['x-user-email'] as string) || '';
+  const userEmail = headerEmail || bodyEmail || '';
+  const isBerlimGestao = userEmail === 'berlim.gestao@campanha.com.br';
 
   if (!mensagem || typeof mensagem !== 'string' || !mensagem.trim()) {
     res.status(400).json({ error: 'É necessário enviar a mensagem no corpo da requisição' });
@@ -25,7 +28,12 @@ router.post('/mensagem', (req: Request, res: Response): void => {
   }
 
   const intent = parseIntentFromText(mensagem);
-  const resposta = executarConsultaChatbot(intent, escopoUsuario as EscopoGeografico | undefined);
+  const resposta = executarConsultaChatbot(
+    intent,
+    escopoUsuario as EscopoGeografico | undefined,
+    isBerlimGestao,
+    mensagem
+  );
 
   res.json(resposta);
 });

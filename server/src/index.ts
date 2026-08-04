@@ -16,6 +16,7 @@ import eleitorRoutes from './routes/eleitores';
 import dobradinhaRoutes from './routes/dobradinha';
 import chatbotRoutes from './routes/chatbot';
 import revopsRoutes from './routes/revops';
+import berlimGestaoRoutes from './routes/berlimGestao';
 import { middlewareAnexarUsuario, aplicarEscopoGeografico } from './middleware/rbac';
 
 const app = express();
@@ -44,6 +45,7 @@ app.use('/api/comparacao', comparacaoRouter);
 app.use('/api/dobradinhas', dobradinhaRoutes);
 app.use('/api/chatbot', chatbotRoutes);
 app.use('/api/revops', revopsRoutes);
+app.use('/api/berlim-gestao', berlimGestaoRoutes);
 
 // ─── Health & Status ──────────────────────────────────────────────────────────
 app.get('/api/health', (_req, res) => {
