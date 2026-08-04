@@ -104,6 +104,26 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
     usuarioAtual?.candidato_id_padrao ? 'isolado_x' : 'soma'
   );
   const [anoEleicao, setAnoEleicao] = useState<number>(0);
+  const [anosSelecionados, setAnosSelecionados] = useState<number[]>([0]);
+
+  const handleToggleAno = (ano: number) => {
+    if (ano === 0) {
+      setAnosSelecionados([0]);
+      setAnoEleicao(0);
+      return;
+    }
+    let updated = anosSelecionados.filter((a) => a !== 0);
+    if (updated.includes(ano)) {
+      updated = updated.filter((a) => a !== ano);
+    } else {
+      updated.push(ano);
+    }
+    if (updated.length === 0) {
+      updated = [0];
+    }
+    setAnosSelecionados(updated);
+    setAnoEleicao(updated[0] || 0);
+  };
 
   // Estado de Ordenação da Visualização dos Dados
   const [ordenacaoDados] = useState<ModoOrdenacaoDados>('forca');
@@ -442,7 +462,9 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
                 modoAtivo={modoAtivo}
                 onModoChange={setModoAtivo}
                 anoEleicao={anoEleicao}
+                anosSelecionados={anosSelecionados}
                 onAnoEleicaoChange={setAnoEleicao}
+                onToggleAnoEleicao={handleToggleAno}
                 totalEleitoresFiltrados={resultado?.resumoGeral.totalEleitores || 0}
                 totalSecoes={resultado?.resumoGeral.totalSecoes || 0}
                 totalVotosX={resultado?.resumoGeral.totalVotosX || 0}
@@ -503,7 +525,9 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
               modoAtivo={modoAtivo}
               onModoChange={setModoAtivo}
               anoEleicao={anoEleicao}
+              anosSelecionados={anosSelecionados}
               onAnoEleicaoChange={setAnoEleicao}
+              onToggleAnoEleicao={handleToggleAno}
               totalEleitoresFiltrados={resultado?.resumoGeral.totalEleitores || 0}
               totalSecoes={resultado?.resumoGeral.totalSecoes || 0}
               totalVotosX={resultado?.resumoGeral.totalVotosX || 0}
@@ -547,7 +571,7 @@ export const GeoVotoDashboard: React.FC<GeoVotoDashboardProps> = ({
                   className={`nav-tab-btn ${activeTab === 'berlim_table' ? 'active' : ''}`}
                   onClick={() => setActiveTab('berlim_table')}
                 >
-                  📊 Tabela Geral PE (Berlim)
+                  📊 Tabela Geral PE
                 </button>
               )}
             </div>

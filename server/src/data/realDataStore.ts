@@ -81,5 +81,42 @@ export const CANDIDATOS_OFICIAIS: Candidato[] = [
     eleicao_id: 1,
     situacao: 'SUPLENTE',
     municipio: 'Recife'
+  },
+  // Marília Arraes - Governadora PE (2022) / Prefeita (2020) / Deputada Federal (2018)
+  {
+    id: 777,
+    sq_candidato_tse: 260001600777,
+    nome_urna: 'MARÍLIA ARRAES',
+    nome_completo: 'MARÍLIA VALENÇA ROCHA ARRAES DE ALENCAR',
+    partido: 'SOLIDARIEDADE',
+    numero: 77,
+    cargo: 'GOVERNADOR',
+    eleicao_id: 2,
+    situacao: 'SEGUNDO TURNO',
+    uf: 'PE'
+  },
+  {
+    id: 778,
+    sq_candidato_tse: 260001600778,
+    nome_urna: 'MARÍLIA ARRAES',
+    nome_completo: 'MARÍLIA VALENÇA ROCHA ARRAES DE ALENCAR',
+    partido: 'PT',
+    numero: 13,
+    cargo: 'PREFEITO',
+    eleicao_id: 3,
+    situacao: 'SEGUNDO TURNO',
+    municipio: 'Recife'
+  },
+  {
+    id: 779,
+    sq_candidato_tse: 260001600779,
+    nome_urna: 'MARÍLIA ARRAES',
+    nome_completo: 'MARÍLIA VALENÇA ROCHA ARRAES DE ALENCAR',
+    partido: 'PT',
+    numero: 1313,
+    cargo: 'DEPUTADO FEDERAL',
+    eleicao_id: 4,
+    situacao: 'ELEITO',
+    uf: 'PE'
   }
 ];

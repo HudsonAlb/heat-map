@@ -31,7 +31,9 @@ interface GeoVotoSidebarProps {
 
   // / Histórico
   anoEleicao: number;
+  anosSelecionados?: number[];
   onAnoEleicaoChange: (ano: number) => void;
+  onToggleAnoEleicao?: (ano: number) => void;
 
   // / Resumo
   totalEleitoresFiltrados: number;
@@ -80,7 +82,9 @@ export const GeoVotoSidebar: React.FC<GeoVotoSidebarProps> = ({
   modoAtivo,
   onModoChange,
   anoEleicao,
+  anosSelecionados,
   onAnoEleicaoChange,
+  onToggleAnoEleicao,
   totalEleitoresFiltrados,
   totalSecoes,
   totalVotosParceria,
@@ -367,36 +371,59 @@ export const GeoVotoSidebar: React.FC<GeoVotoSidebarProps> = ({
           <span className="slash-tag">/</span> Histórico de Eleição
         </h3>
         <div className="history-toggle-buttons">
-          <button
-            className={`history-btn ${anoEleicao === 0 ? 'active' : ''}`}
-            onClick={() => onAnoEleicaoChange(0)}
-          >
-            📊 Ambas as Eleições (Consolidado)
-          </button>
-          <button
-            className={`history-btn ${anoEleicao === 2024 ? 'active' : ''}`}
-            onClick={() => onAnoEleicaoChange(2024)}
-          >
-            🏛️ Eleições 2024 (Municipais)
-          </button>
-          <button
-            className={`history-btn ${anoEleicao === 2022 ? 'active' : ''}`}
-            onClick={() => onAnoEleicaoChange(2022)}
-          >
-            🗳️ Eleições 2022 (Gerais)
-          </button>
-          <button
-            className={`history-btn ${anoEleicao === 2020 ? 'active' : ''}`}
-            onClick={() => onAnoEleicaoChange(2020)}
-          >
-            🏛️ Eleições 2020 (Municipais)
-          </button>
-          <button
-            className={`history-btn ${anoEleicao === 2018 ? 'active' : ''}`}
-            onClick={() => onAnoEleicaoChange(2018)}
-          >
-            🗳️ Eleições 2018 (Gerais)
-          </button>
+          {(() => {
+            const activeList = anosSelecionados && anosSelecionados.length > 0 
+              ? anosSelecionados 
+              : (anoEleicao === 0 ? [0] : [anoEleicao]);
+            
+            const handleSelect = (ano: number) => {
+              if (onToggleAnoEleicao) {
+                onToggleAnoEleicao(ano);
+              } else {
+                onAnoEleicaoChange(ano);
+              }
+            };
+
+            return (
+              <>
+                <button
+                  type="button"
+                  className={`history-btn btn-all ${activeList.includes(0) ? 'active' : ''}`}
+                  onClick={() => handleSelect(0)}
+                >
+                  📊 Todas as Eleições (Consolidado)
+                </button>
+                <button
+                  type="button"
+                  className={`history-btn btn-2024 ${activeList.includes(2024) ? 'active' : ''}`}
+                  onClick={() => handleSelect(2024)}
+                >
+                  🏛️ Eleições 2024 (Municipais)
+                </button>
+                <button
+                  type="button"
+                  className={`history-btn btn-2022 ${activeList.includes(2022) ? 'active' : ''}`}
+                  onClick={() => handleSelect(2022)}
+                >
+                  🗳️ Eleições 2022 (Gerais)
+                </button>
+                <button
+                  type="button"
+                  className={`history-btn btn-2020 ${activeList.includes(2020) ? 'active' : ''}`}
+                  onClick={() => handleSelect(2020)}
+                >
+                  🏛️ Eleições 2020 (Municipais)
+                </button>
+                <button
+                  type="button"
+                  className={`history-btn btn-2018 ${activeList.includes(2018) ? 'active' : ''}`}
+                  onClick={() => handleSelect(2018)}
+                >
+                  🗳️ Eleições 2018 (Gerais)
+                </button>
+              </>
+            );
+          })()}
         </div>
       </div>
 

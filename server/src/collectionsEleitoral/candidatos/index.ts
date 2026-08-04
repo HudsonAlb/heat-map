@@ -74,8 +74,10 @@ candidatosRouter.get('/', (req: Request, res: Response): void => {
   }
   if (cargo) filtrados = filtrados.filter((c) => c.cargo === cargo);
   if (partido) filtrados = filtrados.filter((c) => c.partido.toUpperCase() === partido);
-  if (situacao) filtrados = filtrados.filter((c) => c.situacao.toUpperCase() === situacao);
-  if (ano && !isBerlimGestao) filtrados = filtrados.filter((c) => c.eleicao_id === (ano === 2022 ? 2 : 1));
+  // Permite selecionar qualquer candidato da base oficial da campanha
+  if (ano && isBerlimGestao) {
+    filtrados = filtrados.filter((c) => c.eleicao_id === (ano === 2022 ? 2 : 1));
+  }
 
   const totalSemLimite = filtrados.length;
   if (limite && limite > 0) filtrados = filtrados.slice(0, limite);

@@ -57,7 +57,7 @@ export const BerlimGestaoView: React.FC = () => {
   const totalEleitoresFiltrados = dadosFiltrados.reduce((acc, curr) => acc + curr.eleitores, 0);
 
   return (
-    <div className="berlim-gestao-container" style={{ padding: '1.5rem', color: 'var(--color-text-primary)' }}>
+    <div className="berlim-gestao-container" style={{ padding: '1.5rem', color: 'var(--color-text-primary)', overflowY: 'auto', flex: 1, minHeight: 0, height: '100%' }}>
       {/* ── HEADER DA ÁREA BERLIM GESTÃO ───────────────────────────────────── */}
       <div
         className="berlim-header-card"
